@@ -1,7 +1,7 @@
 ---
 title: "Claude デスクトップアプリの入れ方（Mac / Windows 対応）"
 date: 2026-04-19T12:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude", "Claude Desktop", "インストール", "AIツール"]
 categories: ["AI & Claude Code"]
 description: "Anthropic の Claude を PC で快適に使うためのデスクトップアプリ。Mac・Windows それぞれのインストール方法を、公式動画とドキュメントつきで紹介します。"

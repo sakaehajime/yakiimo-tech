@@ -1,7 +1,7 @@
 ---
 title: "Claude Code、まずはここから（はじめての一歩）"
-date: 2026-04-20T12:00:00+09:00
-draft: true
+date: 2026-04-20T08:00:00+09:00
+draft: false
 tags: ["Claude Code", "AIツール", "CLI"]
 categories: ["AI & Claude Code"]
 description: "Anthropic の AI コーディングアシスタント Claude Code。最初の一歩を踏み出すための、インストールから使いこなしのコツまで。"
