@@ -34,9 +34,9 @@ buildExpired = false
   disableSpecial1stPost = false
   comments = false
 
-# トップページをプロフィールモードに（アイコン＋自己紹介＋ボタン）
+# トップページはカスタムLP (layouts/index.html) を使用。profileMode は無効化。
 [params.profileMode]
-  enabled = true
+  enabled = false
   title = "やきいもテック"
   subtitle = "セキュリティ・AIツール・自動化に関する実務に使える知見を発信しています。"
   imageUrl = "/images/profile.jpg"

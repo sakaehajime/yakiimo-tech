@@ -1,0 +1,80 @@
+{{- define "main" }}
+
+<!-- ===== Hero Section ===== -->
+<section class="yt-hero">
+  <div class="yt-hero-inner">
+    <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいもテック" class="yt-hero-icon" width="120" height="120">
+    <h1 class="yt-hero-title">やきいもテック</h1>
+    <p class="yt-hero-tagline">セキュリティ × AIツール × 自動化</p>
+    <p class="yt-hero-desc">実務で使える知見を、手を動かしながら発信するテックブログ</p>
+    <div class="yt-hero-cta">
+      <a href="{{ "posts/" | relURL }}" class="yt-btn yt-btn-primary">📝 記事を読む</a>
+      <a href="{{ "contact/" | relURL }}" class="yt-btn yt-btn-secondary">✉️ お問い合わせ</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Features Section ===== -->
+<section class="yt-features">
+  <h2 class="yt-section-title">扱うテーマ</h2>
+  <div class="yt-features-grid">
+    <div class="yt-feature-card">
+      <div class="yt-feature-icon">🛡️</div>
+      <h3>セキュリティ</h3>
+      <p>実務で役立つセキュリティの知識、検証レポート、ベストプラクティスを紹介します。</p>
+    </div>
+    <div class="yt-feature-card">
+      <div class="yt-feature-icon">🤖</div>
+      <h3>AIツール</h3>
+      <p>Claude Code をはじめとする、生産性を上げるAIツールの使いこなし術をまとめます。</p>
+    </div>
+    <div class="yt-feature-card">
+      <div class="yt-feature-icon">⚡</div>
+      <h3>自動化</h3>
+      <p>スクリプトからパイプラインまで、日々の作業を速くする時短テクニックを発信します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Recent Posts Section ===== -->
+<section class="yt-recent">
+  <h2 class="yt-section-title">📝 最新記事</h2>
+  <div class="yt-posts-grid">
+    {{ range first 3 (where site.RegularPages "Section" "posts") }}
+    <article class="yt-post-card">
+      <a href="{{ .RelPermalink }}" class="yt-post-card-link">
+        <time class="yt-post-card-date">{{ .Date.Format "2006.01.02" }}</time>
+        <h3 class="yt-post-card-title">{{ .Title }}</h3>
+        {{ with .Params.tags }}
+        <div class="yt-post-card-tags">
+          {{ range . }}<span class="yt-tag">#{{ . }}</span>{{ end }}
+        </div>
+        {{ end }}
+        <p class="yt-post-card-summary">{{ .Summary | plainify | truncate 80 }}</p>
+      </a>
+    </article>
+    {{ end }}
+  </div>
+  <div class="yt-section-cta">
+    <a href="{{ "posts/" | relURL }}" class="yt-btn yt-btn-outline">記事一覧をすべて見る →</a>
+  </div>
+</section>
+
+<!-- ===== About Section ===== -->
+<section class="yt-about">
+  <h2 class="yt-section-title">👤 About</h2>
+  <div class="yt-about-content">
+    <p>こんにちは、<strong>やきいも</strong>です。</p>
+    <p>このブログでは、セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。</p>
+    <p>Claude Code をはじめとしたAIツールを使い倒しながら、セキュリティの実践的なトピックや、日々の業務を効率化するための自動化ハックを、手を動かして試した記録を中心にまとめています。</p>
+  </div>
+</section>
+
+<!-- ===== Contact CTA Section ===== -->
+<section class="yt-contact-cta">
+  <h2>✉️ お問い合わせ</h2>
+  <p>記事へのフィードバック、お仕事のご依頼、お気軽にどうぞ。</p>
+  <a href="{{ "contact/" | relURL }}" class="yt-btn yt-btn-primary">お問い合わせはこちら</a>
+</section>
+
+{{- end }}
