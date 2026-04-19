@@ -1,103 +1,148 @@
 {{- define "main" }}
 
-<!-- ===== Hero Section ===== -->
-<section class="yt-hero">
-  <div class="yt-hero-inner">
-    <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいもテック" class="yt-hero-icon" width="120" height="120">
-    <h1 class="yt-hero-title">やきいもテック</h1>
-    <p class="yt-hero-tagline">セキュリティ × AIツール × 自動化</p>
-    <p class="yt-hero-desc">実務で使える知見を、手を動かしながら発信するテックブログ</p>
-    <div class="yt-hero-cta">
-      <a href="{{ "posts/" | relURL }}" class="yt-btn yt-btn-primary">📝 記事を読む</a>
-      <a href="{{ "contact/" | relURL }}" class="yt-btn yt-btn-secondary">✉️ お問い合わせ</a>
-    </div>
+{{/* ==== Unsplash 無料・商用利用OK の画像プール (grayscale化はCSSで実施) ==== */}}
+{{ $images := slice
+  "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80"
+  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
+  "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1200&q=80"
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"
+  "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80"
+  "https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&w=1200&q=80"
+}}
+
+{{/* ==== Hero 用の大画像 (抽象的なテック/AI系) ==== */}}
+{{ $heroImage := "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=85" }}
+
+<!-- ===================================================== -->
+<!-- ===== HERO ===== -->
+<!-- ===================================================== -->
+<section class="buf-hero">
+  <div class="buf-hero-text">
+    <h1 class="buf-hero-title">
+      <span class="buf-serif buf-italic">We explore</span>
+      <span class="buf-display">Security, AI</span>
+      <span class="buf-display">&amp; Automation.</span>
+    </h1>
+    <p class="buf-hero-sub">実務で試した技術だけを記録する、個人のテックブログ。<br>Claude Code をはじめとしたAIツールを使い倒しながら、セキュリティ・自動化のノウハウを発信しています。</p>
+  </div>
+  <figure class="buf-hero-img">
+    <img src="{{ $heroImage }}" alt="" loading="eager">
+  </figure>
+</section>
+
+<!-- ===================================================== -->
+<!-- ===== MARQUEE ===== -->
+<!-- ===================================================== -->
+<section class="buf-marquee">
+  <div class="buf-marquee-track">
+    <span>◆ CLAUDE CODE</span>
+    <span>◆ MCP</span>
+    <span>◆ セキュリティ</span>
+    <span>◆ 自動化</span>
+    <span>◆ AI TOOLS</span>
+    <span>◆ PYTHON</span>
+    <span>◆ AGENT</span>
+    <span>◆ PROMPT ENGINEERING</span>
+    <span>◆ OSINT</span>
+    <span>◆ やきいも</span>
+    <!-- repeat for seamless loop -->
+    <span>◆ CLAUDE CODE</span>
+    <span>◆ MCP</span>
+    <span>◆ セキュリティ</span>
+    <span>◆ 自動化</span>
+    <span>◆ AI TOOLS</span>
+    <span>◆ PYTHON</span>
+    <span>◆ AGENT</span>
+    <span>◆ PROMPT ENGINEERING</span>
+    <span>◆ OSINT</span>
+    <span>◆ やきいも</span>
   </div>
 </section>
 
-<!-- ===== Features (Bento Grid) ===== -->
-<section class="yt-features">
-  <h2 class="yt-section-title">扱うテーマ</h2>
-  <div class="yt-bento">
-    <!-- Hero card: AI -->
-    <div class="yt-bento-card yt-bento-hero">
-      <div class="yt-bento-icon yt-bento-icon-lg">🤖</div>
-      <h3>AIツール</h3>
-      <p class="yt-bento-desc">Claude Code をはじめとする、生産性を上げるAIツールの<strong>実践的な使いこなし術</strong>を徹底解説。手を動かして試した結果を記録します。</p>
-      <div class="yt-bento-tags">
-        <span>Claude Code</span>
-        <span>MCP</span>
-        <span>ChatGPT</span>
-        <span>Agent</span>
-        <span>自動化</span>
-      </div>
-    </div>
+<!-- ===================================================== -->
+<!-- ===== WRITING (POSTS GRID) ===== -->
+<!-- ===================================================== -->
+<section class="buf-writing">
+  {{ $posts := where site.RegularPages "Section" "posts" }}
+  {{ $postCount := len $posts }}
 
-    <!-- Small card: Security -->
-    <div class="yt-bento-card yt-bento-sec">
-      <div class="yt-bento-icon">🛡️</div>
-      <h3>セキュリティ</h3>
-      <p>実務で役立つ知識・検証レポート・ベストプラクティス。</p>
-    </div>
+  <div class="buf-section-label">
+    <h2>Writing</h2>
+    <span class="buf-count">{{ printf "%02d" $postCount }} Posts</span>
+  </div>
 
-    <!-- Small card: Automation -->
-    <div class="yt-bento-card yt-bento-auto">
-      <div class="yt-bento-icon">⚡</div>
-      <h3>自動化</h3>
-      <p>スクリプトからパイプラインまで、日々の作業を速くする時短テク。</p>
-    </div>
-
-    <!-- Wide card: philosophy -->
-    <div class="yt-bento-card yt-bento-wide">
-      <div class="yt-bento-wide-inner">
-        <div class="yt-bento-wide-icon">💡</div>
-        <div>
-          <h3>実務で試した知見だけ</h3>
-          <p>「これは便利！」と感じたツール・手法を、手を動かして検証してから記事にしています。</p>
+  <div class="buf-grid">
+    {{/* 実記事カード */}}
+    {{ range $i, $p := first 6 $posts }}
+    <article class="buf-card">
+      <a href="{{ .RelPermalink }}" class="buf-card-link">
+        <figure class="buf-card-img">
+          <img src="{{ index $images (mod $i 6) }}" alt="" loading="lazy">
+        </figure>
+        <div class="buf-card-meta">
+          <span class="buf-card-num">{{ printf "%02d" (add $i 1) }}</span>
+          <time class="buf-card-date">{{ .Date.Format "2006.01.02" }}</time>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Recent Posts Section ===== -->
-<section class="yt-recent">
-  <h2 class="yt-section-title">📝 最新記事</h2>
-  <div class="yt-posts-grid">
-    {{ range first 3 (where site.RegularPages "Section" "posts") }}
-    <article class="yt-post-card">
-      <a href="{{ .RelPermalink }}" class="yt-post-card-link">
-        <time class="yt-post-card-date">{{ .Date.Format "2006.01.02" }}</time>
-        <h3 class="yt-post-card-title">{{ .Title }}</h3>
+        <h3 class="buf-card-title">{{ .Title }}</h3>
         {{ with .Params.tags }}
-        <div class="yt-post-card-tags">
-          {{ range . }}<span class="yt-tag">#{{ . }}</span>{{ end }}
+        <div class="buf-card-tags">
+          {{ range first 3 . }}<span>#{{ . }}</span>{{ end }}
         </div>
         {{ end }}
-        <p class="yt-post-card-summary">{{ .Summary | plainify | truncate 80 }}</p>
       </a>
     </article>
     {{ end }}
+
+    {{/* 3枚未満なら Coming Soon プレースホルダを追加 */}}
+    {{ if lt $postCount 3 }}
+    {{ $needed := sub 3 $postCount }}
+    {{ range $i := seq 1 $needed }}
+    {{ $imgIdx := mod (add $postCount (sub $i 1)) 6 }}
+    <article class="buf-card buf-card-placeholder">
+      <figure class="buf-card-img">
+        <img src="{{ index $images $imgIdx }}" alt="" loading="lazy">
+      </figure>
+      <div class="buf-card-meta">
+        <span class="buf-card-num">{{ printf "%02d" (add $postCount $i) }}</span>
+        <time class="buf-card-date">COMING SOON</time>
+      </div>
+      <h3 class="buf-card-title">近日公開。</h3>
+      <div class="buf-card-tags"><span>#準備中</span></div>
+    </article>
+    {{ end }}
+    {{ end }}
   </div>
-  <div class="yt-section-cta">
-    <a href="{{ "posts/" | relURL }}" class="yt-btn yt-btn-outline">記事一覧をすべて見る →</a>
+
+  <div class="buf-writing-cta">
+    <a href="{{ "posts/" | relURL }}" class="buf-oval">View All Writing →</a>
   </div>
 </section>
 
-<!-- ===== About Section ===== -->
-<section class="yt-about">
-  <h2 class="yt-section-title">👤 About</h2>
-  <div class="yt-about-content">
-    <p>こんにちは、<strong>やきいも</strong>です。</p>
-    <p>このブログでは、セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。</p>
-    <p>Claude Code をはじめとしたAIツールを使い倒しながら、セキュリティの実践的なトピックや、日々の業務を効率化するための自動化ハックを、手を動かして試した記録を中心にまとめています。</p>
+<!-- ===================================================== -->
+<!-- ===== ABOUT ===== -->
+<!-- ===================================================== -->
+<section class="buf-about">
+  <div class="buf-section-label">
+    <h2>About</h2>
+  </div>
+  <div class="buf-about-content">
+    <p class="buf-about-lead">
+      <span class="buf-serif buf-italic">Hello,</span> やきいも です。
+    </p>
+    <p class="buf-about-body">セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。Claude Code をはじめとしたAIツールを使い倒しながら、手を動かして試した記録を中心にまとめています。</p>
   </div>
 </section>
 
-<!-- ===== Contact CTA Section ===== -->
-<section class="yt-contact-cta">
-  <h2>✉️ お問い合わせ</h2>
-  <p>記事へのフィードバック、お仕事のご依頼、お気軽にどうぞ。</p>
-  <a href="{{ "contact/" | relURL }}" class="yt-btn yt-btn-primary">お問い合わせはこちら</a>
+<!-- ===================================================== -->
+<!-- ===== CONTACT CTA ===== -->
+<!-- ===================================================== -->
+<section class="buf-contact">
+  <h2 class="buf-contact-title">
+    <span class="buf-serif buf-italic">Say</span>
+    <span class="buf-display">hello.</span>
+  </h2>
+  <p>記事のフィードバック、お仕事のご依頼、お気軽にどうぞ。</p>
+  <a href="{{ "contact/" | relURL }}" class="buf-oval buf-oval-dark">Contact Me →</a>
 </section>
 
 {{- end }}
