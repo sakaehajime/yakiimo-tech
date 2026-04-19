@@ -874,3 +874,549 @@ body:not(.dark),
     margin-bottom: 48px;
   }
 }
+
+/* =========================================================
+   TROY HUNT 風 新セクション (.th-*)
+   ========================================================= */
+
+/* ---- Eyebrow label (小見出し) ---- */
+.th-eyebrow {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--y-orange);
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  background: var(--y-gradient-soft);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.th-eyebrow-light {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================================
+   HERO with VIDEO BACKGROUND
+   ========================================================= */
+
+.th-hero {
+  position: relative;
+  min-height: 640px;
+  padding: 0;
+  margin: 0 calc(50% - 50vw) 80px;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--y-text);
+}
+
+.th-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.th-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.55;
+  filter: saturate(0.9) contrast(1.05);
+}
+
+.th-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 100% at 20% 50%, rgba(10, 10, 10, 0.85) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.65) 0%, rgba(10, 10, 10, 0.45) 50%, rgba(10, 10, 10, 0.8) 100%);
+  pointer-events: none;
+}
+
+.th-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 40px 110px;
+  color: #fff;
+}
+
+.th-hero-content .th-eyebrow {
+  color: #ffd4b8;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.th-hero-title {
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.th-hero-accent {
+  background: var(--y-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.th-hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  margin: 0 0 36px;
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.th-hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.th-hero-cta .buf-oval {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff !important;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.th-hero-cta .buf-oval:hover {
+  background: #fff;
+  color: var(--y-text) !important;
+  border-color: #fff;
+}
+
+.th-hero-cta .buf-oval-dark {
+  background: var(--y-orange);
+  border-color: var(--y-orange);
+  color: #fff !important;
+}
+
+.th-hero-cta .buf-oval-dark:hover {
+  background: #fff;
+  color: var(--y-orange) !important;
+  border-color: #fff;
+}
+
+/* =========================================================
+   FEATURED LATEST POST
+   ========================================================= */
+
+.th-featured {
+  margin-top: 40px;
+}
+
+.th-featured-card {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 0;
+  background: var(--y-bg-card);
+  border: 1px solid var(--y-border);
+  border-radius: var(--y-radius-lg);
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit !important;
+  box-shadow: var(--y-shadow-sm) !important;
+  transition: all 0.3s ease;
+}
+
+.th-featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--y-shadow-lg) !important;
+  border-color: transparent;
+}
+
+.dark .th-featured-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.th-featured-img {
+  margin: 0;
+  min-height: 420px;
+  overflow: hidden;
+  position: relative;
+}
+
+.th-featured-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), transparent 50%, rgba(78, 205, 196, 0.1));
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.th-featured-card:hover .th-featured-img::after {
+  opacity: 1;
+}
+
+.th-featured-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  display: block;
+}
+
+.th-featured-card:hover .th-featured-img img {
+  transform: scale(1.04);
+}
+
+.th-featured-body {
+  padding: 44px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.th-featured-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--y-text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.th-dot {
+  opacity: 0.4;
+}
+
+.th-cat {
+  color: var(--y-orange);
+  font-weight: 600;
+}
+
+.th-featured-title {
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  color: var(--y-text);
+}
+
+.dark .th-featured-title {
+  color: #f5f5f4;
+}
+
+.th-featured-excerpt {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0 0 20px;
+  color: var(--y-text-muted);
+}
+
+.th-featured-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.th-featured-tags span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--y-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.th-featured-read {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--y-orange);
+  margin-top: auto;
+  align-self: flex-start;
+  transition: transform 0.2s ease;
+}
+
+.th-featured-card:hover .th-featured-read {
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   ABOUT THE AUTHOR (Troy Hunt 風 認証感ある bio)
+   ========================================================= */
+
+.th-about {
+  scroll-margin-top: 80px;
+}
+
+.th-about-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+  padding: 48px 48px;
+  background: var(--y-gradient-subtle);
+  border: 1px solid var(--y-border);
+  border-radius: var(--y-radius-lg);
+  align-items: center;
+}
+
+.dark .th-about-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.th-about-photo {
+  margin: 0;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fff;
+  box-shadow: var(--y-shadow-lg);
+  background: var(--y-bg-muted);
+}
+
+.th-about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.th-about-body {
+  min-width: 0;
+}
+
+.th-about-name {
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.th-about-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-orange);
+  padding: 4px 12px;
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: 999px;
+}
+
+.th-about-bio {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--y-text);
+  margin: 0 0 28px;
+}
+
+.dark .th-about-bio {
+  color: #f5f5f4;
+}
+
+.th-about-stats {
+  display: flex;
+  gap: 36px;
+  margin: 0 0 28px;
+  padding: 20px 0;
+  border-top: 1px solid var(--y-border);
+  border-bottom: 1px solid var(--y-border);
+}
+
+.dark .th-about-stats {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.th-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.th-stat-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: var(--y-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.th-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--y-text-muted);
+}
+
+.th-about-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   NEWSLETTER CTA
+   ========================================================= */
+
+.th-newsletter {
+  margin: 80px calc(50% - 50vw) 0;
+  padding: 80px 24px;
+  background: var(--y-text);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.th-newsletter::before {
+  content: "";
+  position: absolute;
+  inset: -10% -10%;
+  background:
+    radial-gradient(50% 60% at 20% 50%, rgba(255, 107, 53, 0.25), transparent 70%),
+    radial-gradient(50% 60% at 80% 50%, rgba(78, 205, 196, 0.18), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.th-newsletter-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.th-newsletter-title {
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0 0 20px;
+  color: #fff;
+}
+
+.th-newsletter-desc {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin: 0 0 32px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.th-newsletter-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.th-newsletter .buf-oval {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.th-newsletter .buf-oval:hover {
+  background: #fff;
+  color: var(--y-text) !important;
+  border-color: #fff;
+}
+
+.th-newsletter .buf-oval-dark {
+  background: var(--y-orange);
+  border-color: var(--y-orange);
+}
+
+.th-newsletter .buf-oval-dark:hover {
+  background: #fff;
+  color: var(--y-orange) !important;
+  border-color: #fff;
+}
+
+/* =========================================================
+   MOBILE — Troy Hunt sections
+   ========================================================= */
+
+@media (max-width: 860px) {
+  .th-hero {
+    min-height: 520px;
+    margin-bottom: 60px;
+  }
+
+  .th-hero-content {
+    padding: 80px 24px 72px;
+  }
+
+  .th-featured-card {
+    grid-template-columns: 1fr;
+  }
+
+  .th-featured-img {
+    min-height: 240px;
+    aspect-ratio: 16/9;
+  }
+
+  .th-featured-body {
+    padding: 32px 28px;
+  }
+
+  .th-about-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .th-about-photo {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+  }
+
+  .th-about-name {
+    justify-content: center;
+  }
+
+  .th-about-stats {
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .th-about-links {
+    justify-content: center;
+  }
+
+  .th-newsletter {
+    padding: 60px 20px;
+  }
+}
+

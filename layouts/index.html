@@ -10,60 +10,76 @@
   "https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&w=1200&q=80"
 }}
 
-{{/* ==== Hero 用の大画像 (抽象的なテック/AI系) ==== */}}
-{{ $heroImage := "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=85" }}
+{{/* ==== Hero 背景動画 (Mixkit / Pexels: 無料・商用利用OK) ==== */}}
+{{ $heroVideo := "https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-an-interconnected-network-1648-large.mp4" }}
+{{ $heroPoster := "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=85" }}
 
 <!-- ===================================================== -->
-<!-- ===== HERO ===== -->
+<!-- ===== HERO with VIDEO BACKGROUND ===== -->
 <!-- ===================================================== -->
-<section class="buf-hero">
-  <div class="buf-hero-text">
-    <h1 class="buf-hero-title">
-      <span>Security, AI</span>
-      <span>&amp; <span class="buf-italic">Automation.</span></span>
+<section class="buf-hero th-hero">
+  <div class="th-hero-bg">
+    <video class="th-hero-video" autoplay muted loop playsinline poster="{{ $heroPoster }}" aria-hidden="true">
+      <source src="{{ $heroVideo }}" type="video/mp4">
+    </video>
+    <div class="th-hero-overlay"></div>
+  </div>
+
+  <div class="th-hero-content">
+    <span class="th-eyebrow">Security · AI · Automation</span>
+    <h1 class="th-hero-title">
+      実務で試した技術を、<br>
+      <span class="th-hero-accent">記録する。</span>
     </h1>
-    <p class="buf-hero-sub">実務で試した技術だけを記録する、個人のテックブログ。<br>Claude Code をはじめとしたAIツールを使い倒しながら、セキュリティ・自動化のノウハウを発信しています。</p>
-    <div class="buf-hero-cta">
-      <a href="{{ "posts/" | relURL }}" class="buf-oval buf-oval-dark">記事を読む →</a>
-      <a href="{{ "about/" | relURL }}" class="buf-oval">やきいもについて →</a>
+    <p class="th-hero-sub">Claude Code をはじめとする AI ツールを使い倒しながら、セキュリティと自動化の実践的なノウハウを発信する個人テックブログ。</p>
+    <div class="th-hero-cta">
+      <a href="{{ "posts/" | relURL }}" class="buf-oval buf-oval-dark">最新の記事を読む →</a>
+      <a href="#about" class="buf-oval">やきいもについて</a>
     </div>
   </div>
-  <figure class="buf-hero-img">
-    <img src="{{ $heroImage }}" alt="" loading="eager">
-  </figure>
 </section>
 
 <!-- ===================================================== -->
-<!-- ===== MARQUEE ===== -->
+<!-- ===== FEATURED LATEST POST ===== -->
 <!-- ===================================================== -->
-<section class="buf-marquee">
-  <div class="buf-marquee-track">
-    <span>◆ CLAUDE CODE</span>
-    <span>◆ MCP</span>
-    <span>◆ セキュリティ</span>
-    <span>◆ 自動化</span>
-    <span>◆ AI TOOLS</span>
-    <span>◆ PYTHON</span>
-    <span>◆ AGENT</span>
-    <span>◆ PROMPT ENGINEERING</span>
-    <span>◆ OSINT</span>
-    <span>◆ やきいも</span>
-    <!-- repeat for seamless loop -->
-    <span>◆ CLAUDE CODE</span>
-    <span>◆ MCP</span>
-    <span>◆ セキュリティ</span>
-    <span>◆ 自動化</span>
-    <span>◆ AI TOOLS</span>
-    <span>◆ PYTHON</span>
-    <span>◆ AGENT</span>
-    <span>◆ PROMPT ENGINEERING</span>
-    <span>◆ OSINT</span>
-    <span>◆ やきいも</span>
+{{ $posts := where site.RegularPages "Section" "posts" }}
+{{ $postCount := len $posts }}
+{{ with index $posts 0 }}
+<section class="th-featured">
+  <div class="buf-section-label">
+    <h2>Latest</h2>
+    <span class="buf-count">Featured Post</span>
   </div>
+
+  <a href="{{ .RelPermalink }}" class="th-featured-card">
+    <figure class="th-featured-img">
+      <img src="{{ index $images 0 }}" alt="" loading="lazy">
+    </figure>
+    <div class="th-featured-body">
+      <div class="th-featured-meta">
+        <time>{{ .Date.Format "2006.01.02" }}</time>
+        <span class="th-dot">•</span>
+        <span>{{ .ReadingTime }} min read</span>
+        {{ with .Params.categories }}
+          <span class="th-dot">•</span>
+          <span class="th-cat">{{ index . 0 }}</span>
+        {{ end }}
+      </div>
+      <h3 class="th-featured-title">{{ .Title }}</h3>
+      <p class="th-featured-excerpt">{{ .Summary | plainify | truncate 140 }}</p>
+      {{ with .Params.tags }}
+      <div class="th-featured-tags">
+        {{ range first 4 . }}<span>#{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
+      <span class="th-featured-read">記事を読む →</span>
+    </div>
+  </a>
 </section>
+{{ end }}
 
 <!-- ===================================================== -->
-<!-- ===== TOPICS (新セクション: 3カード) ===== -->
+<!-- ===== TOPICS (3テーマ紹介) ===== -->
 <!-- ===================================================== -->
 <section>
   <div class="buf-section-label">
@@ -96,24 +112,21 @@
 <!-- ===== WRITING (POSTS GRID) ===== -->
 <!-- ===================================================== -->
 <section class="buf-writing">
-  {{ $posts := where site.RegularPages "Section" "posts" }}
-  {{ $postCount := len $posts }}
-
   <div class="buf-section-label">
     <h2>Writing</h2>
     <span class="buf-count">{{ printf "%02d" $postCount }} Posts</span>
   </div>
 
   <div class="buf-grid">
-    {{/* 実記事カード */}}
-    {{ range $i, $p := first 6 $posts }}
+    {{/* 実記事カード (最新記事はFeaturedで表示済みなので2番目以降を表示) */}}
+    {{ range $i, $p := first 6 (after 1 $posts) }}
     <article class="buf-card">
       <a href="{{ .RelPermalink }}" class="buf-card-link">
         <figure class="buf-card-img">
-          <img src="{{ index $images (mod $i 6) }}" alt="" loading="lazy">
+          <img src="{{ index $images (mod (add $i 1) 6) }}" alt="" loading="lazy">
         </figure>
         <div class="buf-card-meta">
-          <span class="buf-card-num">{{ printf "%02d" (add $i 1) }}</span>
+          <span class="buf-card-num">{{ printf "%02d" (add $i 2) }}</span>
           <time class="buf-card-date">{{ .Date.Format "2006.01.02" }}</time>
         </div>
         <h3 class="buf-card-title">{{ .Title }}</h3>
@@ -126,9 +139,10 @@
     </article>
     {{ end }}
 
-    {{/* 3枚未満なら Coming Soon プレースホルダを追加 */}}
-    {{ if lt $postCount 3 }}
-    {{ $needed := sub 3 $postCount }}
+    {{/* プレースホルダ: 記事が少ないときに見栄えを埋める */}}
+    {{ if lt $postCount 4 }}
+    {{ $needed := sub 3 (sub $postCount 1) }}
+    {{ if lt $needed 0 }}{{ $needed = 0 }}{{ end }}
     {{ range $i := seq 1 $needed }}
     {{ $imgIdx := mod (add $postCount (sub $i 1)) 6 }}
     <article class="buf-card buf-card-placeholder">
@@ -152,17 +166,56 @@
 </section>
 
 <!-- ===================================================== -->
-<!-- ===== ABOUT ===== -->
+<!-- ===== ABOUT THE AUTHOR ===== -->
 <!-- ===================================================== -->
-<section class="buf-about">
+<section id="about" class="th-about">
   <div class="buf-section-label">
-    <h2>About</h2>
+    <h2>About the Author</h2>
   </div>
-  <div class="buf-about-content">
-    <p class="buf-about-lead">
-      <span class="buf-serif">Hello,</span> やきいも です。
-    </p>
-    <p class="buf-about-body">セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。Claude Code をはじめとしたAIツールを使い倒しながら、手を動かして試した記録を中心にまとめています。</p>
+
+  <div class="th-about-card">
+    <figure class="th-about-photo">
+      <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいも" loading="lazy">
+    </figure>
+    <div class="th-about-body">
+      <h3 class="th-about-name">やきいも <span class="th-about-role">Tech Blogger</span></h3>
+      <p class="th-about-bio">セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして試した記録を中心にまとめています。</p>
+
+      <div class="th-about-stats">
+        <div class="th-stat">
+          <span class="th-stat-num">{{ $postCount }}</span>
+          <span class="th-stat-label">Posts</span>
+        </div>
+        <div class="th-stat">
+          <span class="th-stat-num">3</span>
+          <span class="th-stat-label">Topics</span>
+        </div>
+        <div class="th-stat">
+          <span class="th-stat-num">∞</span>
+          <span class="th-stat-label">Learning</span>
+        </div>
+      </div>
+
+      <div class="th-about-links">
+        <a href="{{ "contact/" | relURL }}" class="buf-oval buf-oval-dark">お問い合わせ →</a>
+        <a href="https://github.com/" class="buf-oval" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ===== NEWSLETTER CTA ===== -->
+<!-- ===================================================== -->
+<section class="th-newsletter">
+  <div class="th-newsletter-inner">
+    <span class="th-eyebrow th-eyebrow-light">Stay in the loop</span>
+    <h2 class="th-newsletter-title">新着記事を見逃さない。</h2>
+    <p class="th-newsletter-desc">セキュリティと AI の実践的なトピックを、更新時にお知らせします。<br>RSS または X (Twitter) でフォローしてください。</p>
+    <div class="th-newsletter-cta">
+      <a href="{{ "index.xml" | relURL }}" class="buf-oval buf-oval-dark">📡 RSS で購読する</a>
+      <a href="{{ "contact/" | relURL }}" class="buf-oval">その他の連絡先</a>
+    </div>
   </div>
 </section>
 
@@ -171,7 +224,7 @@
 <!-- ===================================================== -->
 <section class="buf-contact">
   <h2 class="buf-contact-title">
-    <span class="buf-serif">Say</span><span>hello.</span>
+    <span>Say</span><span>hello.</span>
   </h2>
   <p>記事のフィードバック、お仕事のご依頼、お気軽にどうぞ。</p>
   <a href="{{ "contact/" | relURL }}" class="buf-oval buf-oval-dark">Contact Me →</a>
