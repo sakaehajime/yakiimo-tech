@@ -665,6 +665,117 @@ body:not(.dark),
 }
 
 /* =========================================================
+   入場オーバーレイ (BGM即時再生のため)
+   ========================================================= */
+
+.yt-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(253, 251, 248, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: yt-overlay-in 0.5s ease-out;
+}
+
+.dark .yt-intro-overlay {
+  background: rgba(26, 24, 21, 0.97);
+}
+
+.yt-intro-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  pointer-events: none;
+}
+
+@keyframes yt-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.yt-intro-overlay-inner {
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 440px;
+}
+
+.yt-intro-overlay-eyebrow {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--yt-accent);
+  margin: 0 0 10px;
+}
+
+.yt-intro-overlay-title {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  letter-spacing: 0.02em;
+  color: var(--yt-ink-strong);
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.dark .yt-intro-overlay-title { color: #f5f0e6; }
+
+.yt-intro-overlay-sub {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--yt-ink-muted);
+  font-size: 1rem;
+  line-height: 1.9;
+  margin: 0 0 40px;
+}
+
+.dark .yt-intro-overlay-sub { color: #a8a296; }
+
+.yt-intro-overlay-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--yt-accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(228, 122, 110, 0.3);
+}
+
+.yt-intro-overlay-btn:hover {
+  background: var(--yt-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(228, 122, 110, 0.4);
+}
+
+.yt-intro-overlay-skip {
+  display: block;
+  margin: 18px auto 0;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--yt-ink-faint);
+  border: none;
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.yt-intro-overlay-skip:hover {
+  color: var(--yt-ink-muted);
+  text-decoration: underline;
+}
+
+/* =========================================================
    RSS アイコン (左上)
    ========================================================= */
 

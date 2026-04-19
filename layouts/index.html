@@ -224,6 +224,22 @@
   </a>
 </div>
 
+<!-- ===== 入場オーバーレイ (初回のみ・BGM即時再生用) ===== -->
+<div class="yt-intro-overlay" id="yt-intro-overlay" role="dialog" aria-label="やきいもテックへようこそ">
+  <div class="yt-intro-overlay-inner">
+    <p class="yt-intro-overlay-eyebrow">Welcome</p>
+    <h2 class="yt-intro-overlay-title">やきいもテック</h2>
+    <p class="yt-intro-overlay-sub">BGM を流しながら、<br>ゆっくりとお読みください。</p>
+    <button type="button" class="yt-intro-overlay-btn" id="yt-intro-enter">
+      <span>入る</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-left:6px;">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+    </button>
+    <button type="button" class="yt-intro-overlay-skip" id="yt-intro-skip">音なしで入る</button>
+  </div>
+</div>
+
 <!-- ===== BGM: ミュート自動再生 → 初回操作で即ミュート解除 ===== -->
 <audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" autoplay muted playsinline></audio>
 
@@ -317,6 +333,46 @@
 
   audio.addEventListener('play',  function () { if (!audio.muted) setPlayingUI(true); });
   audio.addEventListener('pause', function () { setPlayingUI(false); });
+
+  // ===== 入場オーバーレイの処理 =====
+  var overlay = document.getElementById('yt-intro-overlay');
+  var enterBtn = document.getElementById('yt-intro-enter');
+  var skipBtn  = document.getElementById('yt-intro-skip');
+
+  function hideOverlay() {
+    if (!overlay) return;
+    overlay.classList.add('is-hidden');
+    setTimeout(function () { if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 700);
+  }
+
+  if (enterBtn) {
+    enterBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      // ユーザー操作が発生したのでミュート解除して即再生
+      audio.muted = false;
+      soundEnabled = true;
+      userPaused = false;
+      var pp = audio.play();
+      if (pp && typeof pp.then === 'function') {
+        pp.then(function () {
+          fadeInVolume(600);
+          setPlayingUI(true);
+        }).catch(function(){});
+      }
+      hideOverlay();
+    });
+  }
+
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      userPaused = true;
+      audio.muted = true;
+      audio.pause();
+      setPlayingUI(false);
+      hideOverlay();
+    });
+  }
 })();
 </script>
 
