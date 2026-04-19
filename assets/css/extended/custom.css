@@ -279,54 +279,206 @@ body:not(.dark) {
   padding: 20px 0;
 }
 
-/* ----- 特徴カード (Features) ----- */
-.yt-features-grid {
+/* ----- Bento Grid (特徴セクション) ----- */
+.yt-bento {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 20px;
+  grid-template-areas:
+    "hero sec"
+    "hero auto"
+    "wide wide";
 }
 
-.yt-feature-card {
+.yt-bento-card {
   background: #fff;
   border: 1px solid rgba(230, 126, 34, 0.15);
-  border-radius: 12px;
-  padding: 32px 24px;
-  text-align: center;
+  border-radius: 16px;
+  padding: 28px 26px;
   transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.yt-feature-card:hover {
+.yt-bento-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(230, 126, 34, 0.18);
   border-color: var(--yakiimo-orange);
+  box-shadow: 0 12px 32px rgba(230, 126, 34, 0.2);
 }
 
-.dark .yt-feature-card {
+.dark .yt-bento-card {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(243, 156, 18, 0.2);
 }
 
-.yt-feature-icon {
+/* Hero card (大) */
+.yt-bento-hero {
+  grid-area: hero;
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.08), rgba(243, 156, 18, 0.04));
+  min-height: 360px;
+  justify-content: space-between;
+}
+
+.dark .yt-bento-hero {
+  background: linear-gradient(135deg, rgba(243, 156, 18, 0.14), rgba(230, 126, 34, 0.08));
+}
+
+.yt-bento-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(230, 126, 34, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* 個別カード */
+.yt-bento-sec {
+  grid-area: sec;
+}
+
+.yt-bento-auto {
+  grid-area: auto;
+}
+
+/* 横長のwideカード */
+.yt-bento-wide {
+  grid-area: wide;
+  background: linear-gradient(135deg, var(--yakiimo-orange), var(--yakiimo-orange-dark));
+  color: #fff;
+  border: none;
+}
+
+.yt-bento-wide:hover {
+  box-shadow: 0 12px 32px rgba(230, 126, 34, 0.35);
+}
+
+.yt-bento-wide-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.yt-bento-wide-icon {
   font-size: 3rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.yt-bento-wide h3 {
+  color: #fff !important;
+  margin: 0 0 6px !important;
+  font-size: 1.2rem;
+}
+
+.yt-bento-wide p {
+  color: #fff !important;
+  opacity: 0.95;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* アイコン */
+.yt-bento-icon {
+  font-size: 2.4rem;
   margin-bottom: 14px;
   line-height: 1;
 }
 
-.yt-feature-card h3 {
+.yt-bento-icon-lg {
+  font-size: 4.2rem;
+  margin-bottom: 18px;
+}
+
+/* 見出し */
+.yt-bento-card h3 {
   margin: 0 0 12px;
   font-size: 1.2rem;
   color: var(--yakiimo-orange-dark);
+  border: none;
+  padding: 0;
 }
 
-.dark .yt-feature-card h3 {
+.yt-bento-hero h3 {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+}
+
+.dark .yt-bento-card h3 {
   color: var(--yakiimo-orange-light);
 }
 
-.yt-feature-card p {
+/* 本文 */
+.yt-bento-card p {
   margin: 0;
   font-size: 0.95rem;
   opacity: 0.82;
   line-height: 1.7;
+}
+
+.yt-bento-desc {
+  font-size: 1rem !important;
+  margin-bottom: 20px !important;
+}
+
+/* タグ（Heroカード） */
+.yt-bento-tags {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.yt-bento-tags span {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  background: rgba(230, 126, 34, 0.12);
+  color: var(--yakiimo-orange-dark);
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.dark .yt-bento-tags span {
+  background: rgba(243, 156, 18, 0.18);
+  color: var(--yakiimo-orange-light);
+}
+
+/* モバイル: 縦積み */
+@media (max-width: 700px) {
+  .yt-bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "hero"
+      "sec"
+      "auto"
+      "wide";
+  }
+
+  .yt-bento-hero {
+    min-height: auto;
+  }
+
+  .yt-bento-icon-lg {
+    font-size: 3.5rem;
+  }
+
+  .yt-bento-hero h3 {
+    font-size: 1.5rem;
+  }
+
+  .yt-bento-wide-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
 }
 
 /* ----- 最新記事カード ----- */
