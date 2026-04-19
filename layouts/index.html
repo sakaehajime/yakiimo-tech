@@ -1,6 +1,6 @@
 {{- define "main" }}
 
-{{/* ==== Unsplash 無料・商用利用OK の画像プール (grayscale化はCSSで実施) ==== */}}
+{{/* ==== Unsplash 無料・商用利用OK の画像プール (Unsplash License: 商用利用可・帰属不要) ==== */}}
 {{ $images := slice
   "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80"
   "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
@@ -19,11 +19,14 @@
 <section class="buf-hero">
   <div class="buf-hero-text">
     <h1 class="buf-hero-title">
-      <span class="buf-serif buf-italic">We explore</span>
-      <span class="buf-display">Security, AI</span>
-      <span class="buf-display">&amp; Automation.</span>
+      <span>Security, AI</span>
+      <span>&amp; <span class="buf-italic">Automation.</span></span>
     </h1>
     <p class="buf-hero-sub">実務で試した技術だけを記録する、個人のテックブログ。<br>Claude Code をはじめとしたAIツールを使い倒しながら、セキュリティ・自動化のノウハウを発信しています。</p>
+    <div class="buf-hero-cta">
+      <a href="{{ "posts/" | relURL }}" class="buf-oval buf-oval-dark">記事を読む →</a>
+      <a href="{{ "about/" | relURL }}" class="buf-oval">やきいもについて →</a>
+    </div>
   </div>
   <figure class="buf-hero-img">
     <img src="{{ $heroImage }}" alt="" loading="eager">
@@ -56,6 +59,36 @@
     <span>◆ PROMPT ENGINEERING</span>
     <span>◆ OSINT</span>
     <span>◆ やきいも</span>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ===== TOPICS (新セクション: 3カード) ===== -->
+<!-- ===================================================== -->
+<section>
+  <div class="buf-section-label">
+    <h2>Topics</h2>
+    <span class="buf-count">03 Themes</span>
+  </div>
+
+  <div class="buf-topics">
+    <article class="buf-topic-card">
+      <div class="buf-topic-icon">🤖</div>
+      <h3 class="buf-topic-title">AI &amp; Claude Code</h3>
+      <p class="buf-topic-desc">Claude Code、MCPサーバー、エージェント設計など、AIをガチで使うための実践メモ。</p>
+    </article>
+
+    <article class="buf-topic-card">
+      <div class="buf-topic-icon">🛡️</div>
+      <h3 class="buf-topic-title">Security</h3>
+      <p class="buf-topic-desc">セキュリティの基礎から、OSINT・脆弱性検証・実務で使えるTipsまで。</p>
+    </article>
+
+    <article class="buf-topic-card">
+      <div class="buf-topic-icon">⚡</div>
+      <h3 class="buf-topic-title">Automation</h3>
+      <p class="buf-topic-desc">Python・スクリプト・SNS自動投稿など、面倒な作業を仕組みで片付ける話。</p>
+    </article>
   </div>
 </section>
 
@@ -127,7 +160,7 @@
   </div>
   <div class="buf-about-content">
     <p class="buf-about-lead">
-      <span class="buf-serif buf-italic">Hello,</span> やきいも です。
+      <span class="buf-serif">Hello,</span> やきいも です。
     </p>
     <p class="buf-about-body">セキュリティ・AIツール・自動化に関する<strong>実務で使える知見</strong>を発信しています。Claude Code をはじめとしたAIツールを使い倒しながら、手を動かして試した記録を中心にまとめています。</p>
   </div>
@@ -138,8 +171,7 @@
 <!-- ===================================================== -->
 <section class="buf-contact">
   <h2 class="buf-contact-title">
-    <span class="buf-serif buf-italic">Say</span>
-    <span class="buf-display">hello.</span>
+    <span class="buf-serif">Say</span><span>hello.</span>
   </h2>
   <p>記事のフィードバック、お仕事のご依頼、お気軽にどうぞ。</p>
   <a href="{{ "contact/" | relURL }}" class="buf-oval buf-oval-dark">Contact Me →</a>
