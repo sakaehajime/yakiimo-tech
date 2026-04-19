@@ -1,0 +1,245 @@
+<!-- ===== フローティングボタン群 (BGM + 購読) ===== -->
+<div class="yt-float">
+  <button type="button" id="yt-audio-toggle" class="yt-float-btn yt-float-audio" aria-label="BGMをオン/オフ">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-off">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+    </svg>
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-on" style="display:none;">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+    <span class="yt-float-label">BGM</span>
+  </button>
+  <a href="{{ "contact/" | relURL }}" class="yt-float-btn yt-float-sub">
+    <span class="yt-float-label">購読する</span>
+  </a>
+</div>
+
+<!-- ===== 入場オーバーレイ (セッション初回のみ表示) ===== -->
+<div class="yt-intro-overlay" id="yt-intro-overlay" role="dialog" aria-label="やきいもテックへようこそ">
+  <div class="yt-intro-overlay-inner">
+    <p class="yt-intro-overlay-eyebrow">Welcome</p>
+    <h2 class="yt-intro-overlay-title">やきいもテック</h2>
+    <p class="yt-intro-overlay-sub">BGM を流しながら、<br>ゆっくりとお読みください。</p>
+    <button type="button" class="yt-intro-overlay-btn" id="yt-intro-enter">
+      <span>入る</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-left:6px;">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+    </button>
+    <button type="button" class="yt-intro-overlay-skip" id="yt-intro-skip">音なしで入る</button>
+  </div>
+</div>
+
+<!-- ===== BGM 音源 ===== -->
+<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" playsinline></audio>
+
+<script>
+(function () {
+  var audio  = document.getElementById('yt-bgm');
+  var toggle = document.getElementById('yt-audio-toggle');
+  if (!audio || !toggle) return;
+
+  var TARGET_VOLUME = 0.22;
+  var STORAGE_ENTERED = 'yt-bgm-entered';
+  var STORAGE_PAUSED  = 'yt-bgm-paused';
+  var STORAGE_TIME    = 'yt-bgm-time';
+
+  var hasEntered  = false;
+  var userPaused  = false;
+
+  // sessionStorage から状態を復元
+  try {
+    hasEntered = sessionStorage.getItem(STORAGE_ENTERED) === 'true';
+    userPaused = sessionStorage.getItem(STORAGE_PAUSED)  === 'true';
+    var savedTime = parseFloat(sessionStorage.getItem(STORAGE_TIME) || '0');
+    if (!isNaN(savedTime) && savedTime > 0) {
+      audio.addEventListener('loadedmetadata', function () {
+        if (savedTime < audio.duration) audio.currentTime = savedTime;
+      }, { once: true });
+    }
+  } catch (e) {}
+
+  audio.volume = TARGET_VOLUME;
+
+  var iconOff = toggle.querySelector('.yt-audio-icon-off');
+  var iconOn  = toggle.querySelector('.yt-audio-icon-on');
+
+  function setPlayingUI(playing) {
+    if (playing) {
+      toggle.classList.add('is-playing');
+      if (iconOff) iconOff.style.display = 'none';
+      if (iconOn)  iconOn.style.display  = 'inline-block';
+    } else {
+      toggle.classList.remove('is-playing');
+      if (iconOff) iconOff.style.display = 'inline-block';
+      if (iconOn)  iconOn.style.display  = 'none';
+    }
+  }
+
+  function fadeInVolume(duration) {
+    var start = Date.now();
+    audio.volume = 0;
+    var iv = setInterval(function () {
+      var t = Math.min((Date.now() - start) / duration, 1);
+      audio.volume = TARGET_VOLUME * t;
+      if (t >= 1) clearInterval(iv);
+    }, 30);
+  }
+
+  function saveState() {
+    try {
+      sessionStorage.setItem(STORAGE_ENTERED, hasEntered ? 'true' : 'false');
+      sessionStorage.setItem(STORAGE_PAUSED,  userPaused ? 'true' : 'false');
+      if (!isNaN(audio.currentTime)) {
+        sessionStorage.setItem(STORAGE_TIME, String(audio.currentTime));
+      }
+    } catch (e) {}
+  }
+
+  // ===== オーバーレイ制御 =====
+  var overlay  = document.getElementById('yt-intro-overlay');
+  var enterBtn = document.getElementById('yt-intro-enter');
+  var skipBtn  = document.getElementById('yt-intro-skip');
+
+  function hideOverlay(immediate) {
+    if (!overlay) return;
+    overlay.classList.add('is-hidden');
+    setTimeout(function () {
+      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }, immediate ? 0 : 700);
+  }
+
+  // すでに入場済みならオーバーレイを即非表示
+  if (hasEntered && overlay) {
+    hideOverlay(true);
+  }
+
+  // ===== 再生制御 =====
+  function startMutedAutoplay() {
+    audio.muted = true;
+    audio.play().catch(function(){});
+  }
+
+  function playUnmuted(fadeDuration) {
+    audio.muted = false;
+    var p = audio.play();
+    if (p && typeof p.then === 'function') {
+      p.then(function () {
+        fadeInVolume(fadeDuration || 600);
+        setPlayingUI(true);
+      }).catch(function(){});
+    } else {
+      setPlayingUI(true);
+    }
+  }
+
+  if (hasEntered && !userPaused) {
+    // すでに「入る」済み、かつユーザーが停止していない → そのまま再生再開
+    startMutedAutoplay();
+    // 初回ユーザー操作で必ず解除する保険
+    var reenable = function () {
+      audio.muted = false;
+      audio.play().then(function () {
+        fadeInVolume(400);
+        setPlayingUI(true);
+      }).catch(function(){});
+    };
+    ['pointermove','pointerdown','mousemove','click','touchstart','keydown','scroll','wheel'].forEach(function (ev) {
+      document.addEventListener(ev, reenable, { capture: true, passive: true, once: true });
+    });
+    // 即時にも試す（MEIが高ければ通る）
+    setTimeout(function () {
+      if (audio.muted && !userPaused) reenable();
+    }, 50);
+  } else if (hasEntered && userPaused) {
+    // ユーザーが停止中 → 何もしない
+    setPlayingUI(false);
+  } else {
+    // 未入場 → ミュート自動再生してオーバーレイの操作を待つ
+    startMutedAutoplay();
+  }
+
+  // ===== オーバーレイのボタン =====
+  if (enterBtn) {
+    enterBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hasEntered = true;
+      userPaused = false;
+      saveState();
+      playUnmuted(600);
+      hideOverlay();
+    });
+  }
+
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hasEntered = true;
+      userPaused = true;
+      audio.muted = true;
+      audio.pause();
+      setPlayingUI(false);
+      saveState();
+      hideOverlay();
+    });
+  }
+
+  // ===== BGMトグルボタン =====
+  var lastToggleAt = 0;
+  toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var now = Date.now();
+    if (now - lastToggleAt < 350) return;
+    lastToggleAt = now;
+
+    if (audio.paused || audio.muted) {
+      hasEntered = true;
+      userPaused = false;
+      playUnmuted(600);
+    } else {
+      userPaused = true;
+      audio.pause();
+      setPlayingUI(false);
+    }
+    saveState();
+  });
+
+  audio.addEventListener('play',  function () { if (!audio.muted) setPlayingUI(true); });
+  audio.addEventListener('pause', function () {
+    setPlayingUI(false);
+    if (hasEntered && !userPaused) {
+      setTimeout(function () {
+        if (!userPaused && audio.paused) audio.play().catch(function(){});
+      }, 100);
+    }
+  });
+
+  audio.addEventListener('ended', function () {
+    if (hasEntered && !userPaused) {
+      audio.currentTime = 0;
+      audio.play().catch(function(){});
+    }
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && hasEntered && !userPaused && audio.paused) {
+      audio.play().catch(function(){});
+    }
+  });
+
+  // ウォッチドッグ + 再生位置の保存
+  setInterval(function () {
+    if (hasEntered && !userPaused) {
+      if (audio.paused) audio.play().catch(function(){});
+      if (audio.muted) audio.muted = false;
+      if (audio.volume < 0.02 && audio.currentTime > 2) audio.volume = TARGET_VOLUME;
+    }
+    saveState();
+  }, 1000);
+
+  // ページ遷移直前に状態を保存
+  window.addEventListener('beforeunload', saveState);
+  window.addEventListener('pagehide', saveState);
+})();
+</script>

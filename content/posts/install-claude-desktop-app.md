@@ -1,5 +1,6 @@
 ---
 title: "Claude デスクトップアプリの入れ方（Mac / Windows 対応）"
+displayTitle: "Claude デスクトップアプリの入れ方<br>（Mac / Windows 対応）"
 date: 2026-04-19T12:00:00+09:00
 draft: false
 tags: ["Claude", "Claude Desktop", "インストール", "AIツール"]
