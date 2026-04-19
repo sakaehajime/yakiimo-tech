@@ -43,7 +43,7 @@
 
     <!-- INTRO -->
     <section class="yt-intro">
-      <p class="yt-lede"><span class="yt-dropcap">こ</span>んにちは、やきいもです。このブログは、セキュリティ・AIツール・自動化の実務で使える知見を発信する個人のテックブログです。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして検証した結果だけを、丁寧に記録しています。</p>
+      <p class="yt-lede"><span class="yt-dropcap">こ</span>んにちは、やきいもです。このブログは、Webアプリのセキュリティ・AIツール・自動化の実務で使える知見を発信する個人のテックブログです。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして検証した結果だけを、丁寧に記録しています。</p>
       <p>机上の空論ではなく、実際に試して「これは便利」と感じたものをそのまま残すことを大切にしています。週に一本ほどのペースで更新する予定です。</p>
     </section>
 
@@ -72,12 +72,12 @@
 
       {{ if lt $postCount 3 }}
         {{ $needed := sub 3 $postCount }}
-        {{ $placeholderTitles := slice "週間アップデート 準備中" "AIツール活用メモ (近日公開)" "セキュリティ検証ノート (近日公開)" }}
+        {{ $placeholderTitles := slice "週間アップデート 準備中" "AIツール活用メモ (近日公開)" "Webアプリのセキュリティ検証ノート (近日公開)" }}
         {{ $placeholderDrops := slice "最" "本" "取" }}
         {{ $placeholderBodies := slice
           "近、試しているツールや、実際に手を動かして検証した結果を、順次まとめていく予定です。今しばらくお待ちください。"
           "ブログでは、Claude Code や MCP サーバー、各種 AI ツールをガチで使った際の実践メモを公開していきます。プロンプト設計からツール連携、エージェント活用まで。"
-          "り組んでいる OSINT や脆弱性検証、実務で本当に役立つセキュリティ Tips を、分かりやすくまとめて配信していきます。"
+          "り組んでいる OSINT や脆弱性検証、Webアプリ開発者が本当に押さえておくべきセキュリティ Tips を、分かりやすくまとめて配信していきます。"
         }}
         {{ range $i := seq 1 $needed }}
       <article class="yt-article yt-article-placeholder">
@@ -313,9 +313,15 @@
     document.addEventListener(ev, enableSound, { capture: true, passive: true, once: true });
   });
 
-  // 手動トグル
+  // 手動トグル（デバウンス: 連続トリガー防止）
+  var lastToggleAt = 0;
   toggle.addEventListener('click', function (e) {
     e.stopPropagation();
+    e.preventDefault();
+    var now = Date.now();
+    if (now - lastToggleAt < 350) return;
+    lastToggleAt = now;
+
     if (audio.paused || audio.muted) {
       audio.muted = false;
       soundEnabled = true;
@@ -332,22 +338,20 @@
   });
 
   audio.addEventListener('play',  function () { if (!audio.muted) setPlayingUI(true); });
+  audio.addEventListener('pause', function () { setPlayingUI(false); });
 
-  // ユーザーが意図的に止めた場合以外はBGMを自動再開する
+  // ユーザーが意図的に止めた場合以外はBGMを自動再開
   audio.addEventListener('pause', function () {
-    setPlayingUI(false);
     if (soundEnabled && !userPaused) {
       setTimeout(function () {
         if (!userPaused && audio.paused) {
-          audio.play().then(function () {
-            setPlayingUI(true);
-          }).catch(function(){});
+          audio.play().catch(function(){});
         }
-      }, 120);
+      }, 100);
     }
   });
 
-  // 音声が終わった時も(loop属性があるので普通は発火しないが保険)再開
+  // 音声が終わった時の保険
   audio.addEventListener('ended', function () {
     if (soundEnabled && !userPaused) {
       audio.currentTime = 0;
@@ -355,12 +359,30 @@
     }
   });
 
-  // タブが非表示→表示に戻った時もユーザー意図がなければ再開
+  // タブが非表示→表示に戻った時
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden && soundEnabled && !userPaused && audio.paused) {
       audio.play().catch(function(){});
     }
   });
+
+  // ★ ウォッチドッグ: 1秒ごとに監視 → 何が原因で止まっても強制再開
+  setInterval(function () {
+    if (!soundEnabled || userPaused) return;
+    // 止まっていたら再開
+    if (audio.paused) {
+      audio.play().catch(function(){});
+    }
+    // ミュートが勝手に戻っていたら解除
+    if (audio.muted) {
+      audio.muted = false;
+    }
+    // 音量が意図せず0になっていたら戻す（フェード終了後の不具合対策）
+    if (audio.volume < 0.02 && audio.currentTime > 2) {
+      audio.volume = TARGET_VOLUME;
+    }
+  }, 1000);
+
 
   // ===== 入場オーバーレイの処理 =====
   var overlay = document.getElementById('yt-intro-overlay');
