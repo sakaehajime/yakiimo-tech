@@ -1,0 +1,11 @@
+{{- $asin := .Get "asin" -}}
+{{- $title := .Get "title" -}}
+{{- $image := .Get "image" -}}
+{{- $tag := .Get "tag" | default "yakiimo-22" -}}
+<div class="amazon-card" style="border:1px solid #ddd;border-radius:8px;padding:16px;margin:24px 0;display:flex;gap:16px;align-items:center;">
+  {{ with $image }}<img src="{{ . }}" alt="{{ $title }}" style="width:120px;height:auto;border-radius:4px;">{{ end }}
+  <div style="flex:1;">
+    <p style="margin:0 0 8px 0;font-weight:bold;">{{ $title }}</p>
+    <a href="https://www.amazon.co.jp/dp/{{ $asin }}?tag={{ $tag }}" target="_blank" rel="nofollow sponsored noopener" style="display:inline-block;background:#ff9900;color:#fff;padding:8px 16px;border-radius:4px;text-decoration:none;font-weight:bold;">Amazonで見る</a>
+  </div>
+</div>

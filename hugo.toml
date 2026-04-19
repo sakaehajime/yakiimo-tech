@@ -44,3 +44,34 @@ buildExpired = false
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+# ==================== メニュー設定 ====================
+[[menu.main]]
+  identifier = "archives"
+  name = "記事一覧"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "privacy"
+  name = "プライバシーポリシー"
+  url = "/privacy-policy/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "contact"
+  name = "お問い合わせ"
+  url = "/contact/"
+  weight = 30
+
+# ==================== 収益化・アクセス解析設定 ====================
+# Google AdSense（審査通過後、下記2行のコメントを解除してIDを設定）
+# [params] セクション内で有効化される仕組み
+# ↓ [params] 内に追加する形で有効化
+# adsense = true
+# adsenseClient = "ca-pub-XXXXXXXXXXXXXX"
+
+# Google Analytics 4（測定ID取得後、下記 [services] ブロックを有効化）
+# [services]
+#   [services.googleAnalytics]
+#     ID = "G-XXXXXXXXXX"

@@ -1,0 +1,10 @@
+{{- $type := .Get "type" | default "info" -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $colors := dict "info" "#e3f2fd" "warning" "#fff3cd" "danger" "#f8d7da" "success" "#d4edda" -}}
+{{- $borders := dict "info" "#2196f3" "warning" "#ffc107" "danger" "#dc3545" "success" "#28a745" -}}
+{{- $bg := index $colors $type -}}
+{{- $border := index $borders $type -}}
+<div style="background:{{ $bg }};border-left:4px solid {{ $border }};padding:16px;margin:24px 0;border-radius:4px;">
+  {{ with $title }}<p style="margin:0 0 8px 0;font-weight:bold;">{{ . }}</p>{{ end }}
+  {{ .Inner | markdownify }}
+</div>

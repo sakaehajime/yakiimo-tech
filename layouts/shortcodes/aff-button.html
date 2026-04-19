@@ -1,0 +1,6 @@
+{{- $url := .Get "url" -}}
+{{- $text := .Get "text" | default "詳細はこちら" -}}
+{{- $color := .Get "color" | default "#0066cc" -}}
+<div style="text-align:center;margin:24px 0;">
+  <a href="{{ $url }}" target="_blank" rel="nofollow sponsored noopener" style="display:inline-block;background:{{ $color }};color:#fff;padding:12px 32px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">{{ $text }}</a>
+</div>
