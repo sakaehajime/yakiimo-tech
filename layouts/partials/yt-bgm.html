@@ -1,7 +1,6 @@
-{{- if .IsHome -}}
-<!-- ===== BGM + フローティングボタン: トップページのみ表示 ===== -->
+<!-- ===== BGM + フローティングボタン: 全ページ表示 (位置記憶でページ遷移をなめらかに) ===== -->
 
-<!-- フローティングボタン群 (BGM + 購読) -->
+<!-- フローティングボタン群 (BGM + 購読) — 全ページに常駐 -->
 <div class="yt-float">
   <button type="button" id="yt-audio-toggle" class="yt-float-btn yt-float-audio" aria-label="BGMをオン/オフ">
     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-off">
@@ -17,7 +16,8 @@
   </a>
 </div>
 
-<!-- 入場オーバーレイ (セッション初回のみ表示) -->
+{{- if .IsHome -}}
+<!-- 入場オーバーレイ: トップ初回のみ -->
 <div class="yt-intro-overlay" id="yt-intro-overlay" role="dialog" aria-label="やきいもテックへようこそ">
   <div class="yt-intro-overlay-inner">
     <p class="yt-intro-overlay-eyebrow">Welcome</p>
@@ -32,9 +32,13 @@
     <button type="button" class="yt-intro-overlay-skip" id="yt-intro-skip">音なしで入る</button>
   </div>
 </div>
+{{- end -}}
 
-<!-- BGM 音源 -->
-<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" playsinline></audio>
+<!-- BGM 音源 (Opus 優先 / MP3 フォールバック) -->
+<audio id="yt-bgm" loop preload="auto" playsinline>
+  <source src="{{ "audio/ambient.opus" | relURL }}" type="audio/ogg; codecs=opus">
+  <source src="{{ "audio/ambient.mp3" | relURL }}" type="audio/mpeg">
+</audio>
 
 <script>
 (function () {
@@ -42,14 +46,17 @@
   var toggle = document.getElementById('yt-audio-toggle');
   if (!audio || !toggle) return;
 
-  var TARGET_VOLUME = 0.22;
+  var TARGET_VOLUME   = 0.22;
   var STORAGE_ENTERED = 'yt-bgm-entered';
+  var STORAGE_PAUSED  = 'yt-bgm-paused';
+  var STORAGE_TIME    = 'yt-bgm-time';
 
   var hasEntered = false;
   var userPaused = false;
 
   try {
     hasEntered = sessionStorage.getItem(STORAGE_ENTERED) === 'true';
+    userPaused = sessionStorage.getItem(STORAGE_PAUSED) === 'true';
   } catch (e) {}
 
   audio.volume = TARGET_VOLUME;
@@ -82,9 +89,47 @@
   function saveEntered() {
     try { sessionStorage.setItem(STORAGE_ENTERED, 'true'); } catch (e) {}
   }
+  function savePaused(v) {
+    userPaused = !!v;
+    try { sessionStorage.setItem(STORAGE_PAUSED, v ? 'true' : 'false'); } catch (e) {}
+  }
+  function saveTime() {
+    try {
+      var t = audio.currentTime;
+      if (isFinite(t) && t >= 0) sessionStorage.setItem(STORAGE_TIME, String(t));
+    } catch (e) {}
+  }
+
+  // ===== 再生位置の復元 =====
+  function restorePosition() {
+    try {
+      var t = parseFloat(sessionStorage.getItem(STORAGE_TIME) || '0');
+      if (t > 0 && isFinite(audio.duration) && t < audio.duration - 0.5) {
+        audio.currentTime = t;
+      }
+    } catch (e) {}
+  }
+  if (audio.readyState >= 1) {
+    restorePosition();
+  } else {
+    audio.addEventListener('loadedmetadata', restorePosition, { once: true });
+  }
+
+  // 1.5秒間隔で再生位置を保存 (timeupdate のスロットリング)
+  var lastSaveAt = 0;
+  audio.addEventListener('timeupdate', function () {
+    var now = Date.now();
+    if (now - lastSaveAt < 1500) return;
+    lastSaveAt = now;
+    saveTime();
+  });
+
+  // ページ離脱時に最終位置を保存 → 次ページで連続再生
+  window.addEventListener('beforeunload', saveTime);
+  window.addEventListener('pagehide', saveTime);
 
   // ===== オーバーレイ =====
-  var overlay  = document.getElementById('yt-intro-overlay');
+  var overlay  = document.getElementById('yt-intro-overlay'); // 存在するのはトップのみ
   var enterBtn = document.getElementById('yt-intro-enter');
   var skipBtn  = document.getElementById('yt-intro-skip');
 
@@ -118,33 +163,41 @@
     }
   }
 
-  if (hasEntered) {
-    // 既に入場済み → ミュート自動再生 + 初回操作で解除
-    startMutedAutoplay();
-    var reenable = function () {
-      if (userPaused) return;
-      audio.muted = false;
-      audio.play().then(function () {
-        fadeInVolume(400);
-        setPlayingUI(true);
-      }).catch(function(){});
-    };
-    ['pointermove','pointerdown','mousemove','click','touchstart','keydown','scroll','wheel'].forEach(function (ev) {
-      document.addEventListener(ev, reenable, { capture: true, passive: true, once: true });
-    });
-    setTimeout(function () {
-      if (audio.muted && !userPaused) reenable();
-    }, 50);
-  } else {
+  // 「オーバーレイがまだ表示中」なら入場待ち、それ以外は即時再開を試みる
+  var overlayActive = !!(overlay && !hasEntered);
+
+  if (overlayActive) {
     // 未入場 → ミュート自動再生 + オーバーレイで操作を待つ
     startMutedAutoplay();
+  } else {
+    // 入場済み or 記事ページ等 → ミュート自動再生 + 初回操作で解除
+    if (userPaused) {
+      // ユーザーが意図的に止めた → 何もしない (UI は OFF)
+      setPlayingUI(false);
+    } else {
+      startMutedAutoplay();
+      var reenable = function () {
+        if (userPaused) return;
+        audio.muted = false;
+        audio.play().then(function () {
+          fadeInVolume(400);
+          setPlayingUI(true);
+        }).catch(function(){});
+      };
+      ['pointermove','pointerdown','mousemove','click','touchstart','keydown','scroll','wheel'].forEach(function (ev) {
+        document.addEventListener(ev, reenable, { capture: true, passive: true, once: true });
+      });
+      setTimeout(function () {
+        if (audio.muted && !userPaused) reenable();
+      }, 50);
+    }
   }
 
   if (enterBtn) {
     enterBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       hasEntered = true;
-      userPaused = false;
+      savePaused(false);
       saveEntered();
       playUnmuted(600);
       hideOverlay();
@@ -155,7 +208,7 @@
     skipBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       hasEntered = true;
-      userPaused = true;
+      savePaused(true);
       audio.muted = true;
       audio.pause();
       setPlayingUI(false);
@@ -174,12 +227,12 @@
     lastToggleAt = now;
 
     if (audio.paused || audio.muted) {
-      userPaused = false;
+      savePaused(false);
       hasEntered = true;
       saveEntered();
       playUnmuted(600);
     } else {
-      userPaused = true;
+      savePaused(true);
       audio.pause();
       setPlayingUI(false);
     }
@@ -195,9 +248,11 @@
     }
   });
 
+  // loop 属性で自動ループするはずだが、保険として ended でも再開
   audio.addEventListener('ended', function () {
     if (hasEntered && !userPaused) {
       audio.currentTime = 0;
+      try { sessionStorage.setItem(STORAGE_TIME, '0'); } catch (e) {}
       audio.play().catch(function(){});
     }
   });
@@ -217,4 +272,3 @@
   }, 1000);
 })();
 </script>
-{{- end -}}
