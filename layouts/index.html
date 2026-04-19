@@ -224,8 +224,8 @@
   </a>
 </div>
 
-<!-- ===== BGM (自動再生: ブロック時は初回操作で) ===== -->
-<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" autoplay></audio>
+<!-- ===== BGM: ミュート自動再生 → 初回操作で即ミュート解除 ===== -->
+<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" autoplay muted playsinline></audio>
 
 <script>
 (function () {
@@ -233,7 +233,14 @@
   var toggle = document.getElementById('yt-audio-toggle');
   if (!audio || !toggle) return;
 
-  audio.volume = 0.22;
+  var TARGET_VOLUME = 0.22;
+  var userPaused = false;
+  var soundEnabled = false;
+
+  // ミュート状態で自動再生（ブラウザは常に許可）
+  audio.muted = true;
+  audio.volume = TARGET_VOLUME;
+
   var iconOff = toggle.querySelector('.yt-audio-icon-off');
   var iconOn  = toggle.querySelector('.yt-audio-icon-on');
 
@@ -249,35 +256,66 @@
     }
   }
 
-  var tryPlay = audio.play();
-  if (tryPlay && typeof tryPlay.then === 'function') {
-    tryPlay.then(function () {
-      setPlayingUI(true);
-    }).catch(function () {
-      setPlayingUI(false);
-      var resume = function () {
-        audio.play().then(function () { setPlayingUI(true); }).catch(function(){});
-        ['click','touchstart','keydown','scroll'].forEach(function (ev) {
-          document.removeEventListener(ev, resume, { capture: true });
-        });
+  // 音量フェードイン（ミュート解除時の違和感を消す）
+  function fadeInVolume(duration) {
+    var start = Date.now();
+    audio.volume = 0;
+    var iv = setInterval(function () {
+      var t = Math.min((Date.now() - start) / duration, 1);
+      audio.volume = TARGET_VOLUME * t;
+      if (t >= 1) clearInterval(iv);
+    }, 30);
+  }
+
+  // 即座にミュート再生を開始
+  var p = audio.play();
+  if (p && typeof p.catch === 'function') {
+    p.catch(function () {
+      // 極稀なブロック時のための保険
+      var kick = function () {
+        audio.muted = true;
+        audio.play().catch(function(){});
       };
-      ['click','touchstart','keydown','scroll'].forEach(function (ev) {
-        document.addEventListener(ev, resume, { capture: true, once: true });
-      });
+      document.addEventListener('click',      kick, { once: true, capture: true });
+      document.addEventListener('touchstart', kick, { once: true, capture: true, passive: true });
+      document.addEventListener('scroll',     kick, { once: true, capture: true, passive: true });
     });
   }
 
+  // 初回ユーザー操作でミュート解除（マウス移動・スクロール・クリック・タップ・キー・ホイール全てに反応）
+  function enableSound() {
+    if (soundEnabled || userPaused) return;
+    soundEnabled = true;
+    audio.muted = false;
+    if (audio.paused) audio.play().catch(function(){});
+    fadeInVolume(900);
+    setPlayingUI(true);
+  }
+
+  var events = ['pointermove','pointerdown','mousemove','click','touchstart','keydown','scroll','wheel'];
+  events.forEach(function (ev) {
+    document.addEventListener(ev, enableSound, { capture: true, passive: true, once: true });
+  });
+
+  // 手動トグル
   toggle.addEventListener('click', function (e) {
     e.stopPropagation();
-    if (audio.paused) {
-      audio.play().then(function () { setPlayingUI(true); }).catch(function(){});
+    if (audio.paused || audio.muted) {
+      audio.muted = false;
+      soundEnabled = true;
+      userPaused = false;
+      audio.play().then(function () {
+        fadeInVolume(600);
+        setPlayingUI(true);
+      }).catch(function(){});
     } else {
+      userPaused = true;
       audio.pause();
       setPlayingUI(false);
     }
   });
 
-  audio.addEventListener('play',  function () { setPlayingUI(true);  });
+  audio.addEventListener('play',  function () { if (!audio.muted) setPlayingUI(true); });
   audio.addEventListener('pause', function () { setPlayingUI(false); });
 })();
 </script>
