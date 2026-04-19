@@ -1,216 +1,284 @@
 {{- define "main" }}
 
 {{/* ==== Unsplash 無料・商用利用OK (Unsplash License: 商用可・帰属不要) ==== */}}
-{{/* 明るい自然光・植物・草木系に限定 ==== */}}
-{{ $heroImage := "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1600&q=85" }}
-{{ $natureA := "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=85" }}
-{{ $natureB := "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85" }}
-{{ $natureC := "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=85" }}
+{{ $heroImage := "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&w=2400&q=90" }}
+{{ $heroCaption := "木漏れ日の森。手を動かして試した記録を、丁寧に残す場所として。" }}
 
-{{/* ==== 記事用画像プール（明るい自然系・植物あり） ==== */}}
-{{ $postImages := slice
-  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85"
-  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1200&q=85"
-  "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85"
-  "https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?auto=format&fit=crop&w=1200&q=85"
-  "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=1200&q=85"
-  "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85"
-}}
+{{ $breakImage := "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2400&q=90" }}
+{{ $breakCaption := "静かな森の小道を歩くように、ひとつずつ確かめながら書いていきます。" }}
 
 {{ $posts := where site.RegularPages "Section" "posts" }}
 {{ $postCount := len $posts }}
 
-<!-- ===================================================== -->
 <!-- ===== RSS小アイコン (左上) ===== -->
-<!-- ===================================================== -->
 <a href="{{ "index.xml" | relURL }}" class="yt-rss" aria-label="RSS">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
     <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
   </svg>
 </a>
 
-<!-- ===================================================== -->
-<!-- ===== MASTHEAD (大きな中央寄せタイトル) ===== -->
-<!-- ===================================================== -->
-<header class="yt-masthead">
-  <h1 class="yt-masthead-title">やきいもテック</h1>
-  <p class="yt-masthead-sub">私は、セキュリティ・AIツール・自動化に関する主要なテクノロジーをテーマに、実務で試した技術の記録を綴っています。</p>
-</header>
+<!-- ================================================================= -->
+<!-- ===== 2カラムレイアウト：メイン + サイドバー ===== -->
+<!-- ================================================================= -->
+<div class="yt-page">
 
-{{/* ==== ヒーロー画像（明るい自然光・オプショナル） ==== */}}
-<figure class="yt-hero-photo">
-  <img src="{{ $heroImage }}" alt="" loading="eager">
-</figure>
+  <!-- ============================================== -->
+  <!-- ===== メインコンテンツ ===== -->
+  <!-- ============================================== -->
+  <main class="yt-main">
 
-<!-- ===================================================== -->
-<!-- ===== INTRO (ドロップキャップ付き本文) ===== -->
-<!-- ===================================================== -->
-<section class="yt-intro">
-  <p class="yt-lede"><span class="yt-dropcap">こ</span>んにちは、やきいもです。このブログは、セキュリティ・AIツール・自動化の実務で使える知見を発信する個人のテックブログです。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして検証した結果だけを、丁寧に記録しています。</p>
-  <p>机上の空論ではなく、実際に試して「これは便利」と感じたものをそのまま残すことを大切にしています。週に一本ほどのペースで更新する予定です。</p>
-</section>
+    <!-- MASTHEAD -->
+    <header class="yt-masthead">
+      <h1 class="yt-masthead-title">やきいもテック</h1>
+      <p class="yt-masthead-sub">私は、セキュリティ・AIツール・自動化に関する主要なテクノロジーをテーマに、実務で試した技術の記録を綴っています。</p>
+    </header>
 
-<!-- ===================================================== -->
-<!-- ===== ARTICLES (週間アップデート形式) ===== -->
-<!-- ===================================================== -->
-<section class="yt-articles">
-  {{ $drops := slice "や" "週" "今" "日" "実" "最" "初" "新" }}
-  {{ range $i, $p := first 6 $posts }}
-    {{ $title := .Title }}
-    {{ $firstChar := substr $title 0 1 }}
-    {{ $bodyText := .Summary | plainify }}
-    {{ $bodyFirst := substr $bodyText 0 1 }}
-    {{ $bodyRest := substr $bodyText 1 200 }}
-  <article class="yt-article">
-    <h2 class="yt-article-title">
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    </h2>
-    <p class="yt-article-date">{{ .Date.Format "2006年1月2日" }}</p>
-    <p class="yt-article-body">
-      <span class="yt-dropcap">{{ $bodyFirst }}</span>{{ $bodyRest }}...
-    </p>
-    {{ with .Params.categories }}
-    <p class="yt-article-tag">
-      <a href="{{ printf "categories/%s/" (index . 0 | urlize) | relURL }}">{{ index . 0 }}</a>
-    </p>
-    {{ end }}
-  </article>
-  <hr class="yt-divider">
-  {{ end }}
-
-  {{/* 記事が少ない場合の「近日公開」プレースホルダ */}}
-  {{ if lt $postCount 3 }}
-    {{ $needed := sub 3 $postCount }}
-    {{ $placeholderTitles := slice "週間アップデート 準備中" "AIツール活用メモ (近日公開)" "セキュリティ検証ノート (近日公開)" }}
-    {{ $placeholderDrops := slice "最" "本" "取" }}
-    {{ $placeholderBodies := slice
-      "近、試しているツールや、実際に手を動かして検証した結果を、順次まとめていく予定です。今しばらくお待ちください。"
-      "ブログでは、Claude Code や MCP サーバー、各種 AI ツールをガチで使った際の実践メモを公開していきます。プロンプト設計からツール連携、エージェント活用まで。"
-      "り組んでいる OSINT や脆弱性検証、実務で本当に役立つセキュリティ Tips を、分かりやすくまとめて配信していきます。"
-    }}
-    {{ range $i := seq 1 $needed }}
-  <article class="yt-article yt-article-placeholder">
-    <h2 class="yt-article-title">{{ index $placeholderTitles (sub $i 1) }}</h2>
-    <p class="yt-article-date">近日公開</p>
-    <p class="yt-article-body">
-      <span class="yt-dropcap">{{ index $placeholderDrops (sub $i 1) }}</span>{{ index $placeholderBodies (sub $i 1) }}
-    </p>
-    <p class="yt-article-tag">準備中</p>
-  </article>
-  <hr class="yt-divider">
-    {{ end }}
-  {{ end }}
-</section>
-
-<!-- ===================================================== -->
-<!-- ===== 中間イメージ (明るい自然光) ===== -->
-<!-- ===================================================== -->
-<figure class="yt-break-photo">
-  <img src="{{ $natureA }}" alt="" loading="lazy">
-</figure>
-
-<!-- ===================================================== -->
-<!-- ===== TOPICS (取り扱う主題) ===== -->
-<!-- ===================================================== -->
-<section class="yt-topics">
-  <h2 class="yt-section-h2">取り扱う主題</h2>
-  <p class="yt-section-lede">このブログで書いている内容は、大きく次の三つに分かれます。</p>
-
-  <div class="yt-topic">
-    <h3 class="yt-topic-h3">AI &amp; Claude Code</h3>
-    <p class="yt-topic-body"><span class="yt-dropcap-s">A</span>I ツールをガチで使うための実践メモ。Claude Code、MCP サーバー、エージェント設計など、プロンプトの組み方からツール連携、自動化パイプラインの組み方まで、実際に運用した上での知見を残します。</p>
-  </div>
-
-  <div class="yt-topic">
-    <h3 class="yt-topic-h3">セキュリティ</h3>
-    <p class="yt-topic-body"><span class="yt-dropcap-s">セ</span>キュリティの基礎から、OSINT や脆弱性検証の実務、Web アプリケーション開発者が本当に押さえておくべきポイントまで。手を動かして試した結果を、分かりやすく整理します。</p>
-  </div>
-
-  <div class="yt-topic">
-    <h3 class="yt-topic-h3">自動化</h3>
-    <p class="yt-topic-body"><span class="yt-dropcap-s">日</span>々の業務を仕組みで片付けるための時短テクニック。Python スクリプト、Shell、SNS 自動投稿、API 連携など、小さい効率化から本格的なパイプラインまで、実例を交えて紹介します。</p>
-  </div>
-</section>
-
-<!-- ===================================================== -->
-<!-- ===== 中間イメージ2 (植物・草木) ===== -->
-<!-- ===================================================== -->
-<figure class="yt-break-photo">
-  <img src="{{ $natureB }}" alt="" loading="lazy">
-</figure>
-
-<!-- ===================================================== -->
-<!-- ===== ABOUT ===== -->
-<!-- ===================================================== -->
-<section id="about" class="yt-about">
-  <h2 class="yt-section-h2">私について</h2>
-  <p class="yt-section-lede">筆者「やきいも」のプロフィール、このブログを書いている背景について。</p>
-
-  <div class="yt-about-inner">
-    <figure class="yt-about-photo">
-      <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいも" loading="lazy">
+    <!-- ヒーロー画像 -->
+    <figure class="yt-hero-photo">
+      <div class="yt-hero-photo-frame">
+        <img src="{{ $heroImage }}" alt="" loading="eager">
+      </div>
+      <figcaption class="yt-caption">{{ $heroCaption }}</figcaption>
     </figure>
-    <div class="yt-about-text">
-      <p><span class="yt-dropcap">や</span>きいもと申します。普段はソフトウェアエンジニアとして働きながら、セキュリティと AI ツールの両方に強い興味を持っています。特に Claude Code をはじめとする AI ツールと、開発・運用の自動化に関心があります。</p>
-      <p>このブログの記事は、実際に試して「これは便利」と感じたものだけを書いています。机上の空論ではなく、手を動かした結果をそのまま残すことを大切にしています。記事への質問やご指摘、お仕事の相談などは、<a href="{{ "contact/" | relURL }}">連絡先ページ</a>からお願いします。</p>
+
+    <!-- INTRO -->
+    <section class="yt-intro">
+      <p class="yt-lede"><span class="yt-dropcap">こ</span>んにちは、やきいもです。このブログは、セキュリティ・AIツール・自動化の実務で使える知見を発信する個人のテックブログです。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして検証した結果だけを、丁寧に記録しています。</p>
+      <p>机上の空論ではなく、実際に試して「これは便利」と感じたものをそのまま残すことを大切にしています。週に一本ほどのペースで更新する予定です。</p>
+    </section>
+
+    <!-- ARTICLES -->
+    <section class="yt-articles">
+      {{ range $i, $p := first 6 $posts }}
+        {{ $bodyText := .Summary | plainify }}
+        {{ $bodyFirst := substr $bodyText 0 1 }}
+        {{ $bodyRest := substr $bodyText 1 200 }}
+      <article class="yt-article">
+        <h2 class="yt-article-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+        <p class="yt-article-date">{{ .Date.Format "2006年1月2日" }}</p>
+        <p class="yt-article-body">
+          <span class="yt-dropcap">{{ $bodyFirst }}</span>{{ $bodyRest }}...
+        </p>
+        {{ with .Params.categories }}
+        <p class="yt-article-tag">
+          <a href="{{ printf "categories/%s/" (index . 0 | urlize) | relURL }}">{{ index . 0 }}</a>
+        </p>
+        {{ end }}
+      </article>
+      <hr class="yt-divider">
+      {{ end }}
+
+      {{ if lt $postCount 3 }}
+        {{ $needed := sub 3 $postCount }}
+        {{ $placeholderTitles := slice "週間アップデート 準備中" "AIツール活用メモ (近日公開)" "セキュリティ検証ノート (近日公開)" }}
+        {{ $placeholderDrops := slice "最" "本" "取" }}
+        {{ $placeholderBodies := slice
+          "近、試しているツールや、実際に手を動かして検証した結果を、順次まとめていく予定です。今しばらくお待ちください。"
+          "ブログでは、Claude Code や MCP サーバー、各種 AI ツールをガチで使った際の実践メモを公開していきます。プロンプト設計からツール連携、エージェント活用まで。"
+          "り組んでいる OSINT や脆弱性検証、実務で本当に役立つセキュリティ Tips を、分かりやすくまとめて配信していきます。"
+        }}
+        {{ range $i := seq 1 $needed }}
+      <article class="yt-article yt-article-placeholder">
+        <h2 class="yt-article-title">{{ index $placeholderTitles (sub $i 1) }}</h2>
+        <p class="yt-article-date">近日公開</p>
+        <p class="yt-article-body">
+          <span class="yt-dropcap">{{ index $placeholderDrops (sub $i 1) }}</span>{{ index $placeholderBodies (sub $i 1) }}
+        </p>
+        <p class="yt-article-tag">準備中</p>
+      </article>
+      <hr class="yt-divider">
+        {{ end }}
+      {{ end }}
+    </section>
+
+    <!-- ブレーク画像 -->
+    <figure class="yt-break-photo">
+      <div class="yt-break-photo-frame">
+        <img src="{{ $breakImage }}" alt="" loading="lazy">
+      </div>
+      <figcaption class="yt-caption">{{ $breakCaption }}</figcaption>
+    </figure>
+
+    <!-- TOPICS -->
+    <section class="yt-topics">
+      <h2 class="yt-section-h2">取り扱う主題</h2>
+      <p class="yt-section-lede">このブログで書いている内容は、大きく次の三つに分かれます。</p>
+
+      <div class="yt-topic">
+        <h3 class="yt-topic-h3">AI &amp; Claude Code</h3>
+        <p class="yt-topic-body"><span class="yt-dropcap-s">A</span>I ツールをガチで使うための実践メモ。Claude Code、MCP サーバー、エージェント設計など、プロンプトの組み方からツール連携、自動化パイプラインの組み方まで、実際に運用した上での知見を残します。</p>
+      </div>
+
+      <div class="yt-topic">
+        <h3 class="yt-topic-h3">セキュリティ</h3>
+        <p class="yt-topic-body"><span class="yt-dropcap-s">セ</span>キュリティの基礎から、OSINT や脆弱性検証の実務、Web アプリケーション開発者が本当に押さえておくべきポイントまで。手を動かして試した結果を、分かりやすく整理します。</p>
+      </div>
+
+      <div class="yt-topic">
+        <h3 class="yt-topic-h3">自動化</h3>
+        <p class="yt-topic-body"><span class="yt-dropcap-s">日</span>々の業務を仕組みで片付けるための時短テクニック。Python スクリプト、Shell、SNS 自動投稿、API 連携など、小さい効率化から本格的なパイプラインまで、実例を交えて紹介します。</p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="yt-about">
+      <h2 class="yt-section-h2">私について</h2>
+      <p class="yt-section-lede">筆者「やきいも」のプロフィール、このブログを書いている背景について。</p>
+
+      <div class="yt-about-inner">
+        <figure class="yt-about-photo">
+          <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいも" loading="lazy">
+        </figure>
+        <div class="yt-about-text">
+          <p><span class="yt-dropcap">や</span>きいもと申します。普段はソフトウェアエンジニアとして働きながら、セキュリティと AI ツールの両方に強い興味を持っています。特に Claude Code をはじめとする AI ツールと、開発・運用の自動化に関心があります。</p>
+          <p>このブログの記事は、実際に試して「これは便利」と感じたものだけを書いています。机上の空論ではなく、手を動かした結果をそのまま残すことを大切にしています。記事への質問やご指摘、お仕事の相談などは、<a href="{{ "contact/" | relURL }}">連絡先ページ</a>からお願いします。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER NOTE -->
+    <section class="yt-foot-note">
+      <hr class="yt-divider">
+      <h3 class="yt-foot-title">著作権 2026、やきいも</h3>
+      <p class="yt-foot-body">このブログの記事は、私個人の経験と見解に基づいています。引用を除き、文責はすべてやきいも個人にあります。<a href="{{ "privacy-policy/" | relURL }}">プライバシーポリシー</a> / <a href="{{ "contact/" | relURL }}">お問い合わせ</a></p>
+    </section>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- ===== サイドバー ===== -->
+  <!-- ============================================== -->
+  <aside class="yt-sidebar">
+
+    <!-- プロフィール mini card -->
+    <div class="yt-side-widget yt-side-profile">
+      <figure class="yt-side-photo">
+        <img src="{{ "images/profile.jpg" | relURL }}" alt="やきいも" loading="lazy">
+      </figure>
+      <h3 class="yt-side-name">やきいも</h3>
+      <p class="yt-side-role">Tech Blogger</p>
+      <p class="yt-side-intro">セキュリティ・AI・自動化の実践記録を丁寧に綴っています。</p>
     </div>
-  </div>
-</section>
 
-<!-- ===================================================== -->
-<!-- ===== FOOTER NOTE ===== -->
-<!-- ===================================================== -->
-<section class="yt-foot-note">
-  <hr class="yt-divider">
-  <h3 class="yt-foot-title">著作権 2026、やきいも</h3>
-  <p class="yt-foot-body">このブログの記事は、私個人の経験と見解に基づいています。引用を除き、文責はすべてやきいも個人にあります。<a href="{{ "privacy-policy/" | relURL }}">プライバシーポリシー</a> / <a href="{{ "contact/" | relURL }}">お問い合わせ</a></p>
-</section>
+    <!-- 最新記事 -->
+    <div class="yt-side-widget">
+      <h3 class="yt-side-title">最新の記事</h3>
+      <ul class="yt-side-list">
+        {{ range first 5 $posts }}
+        <li class="yt-side-item">
+          <a href="{{ .RelPermalink }}">
+            <span class="yt-side-item-title">{{ .Title }}</span>
+            <time class="yt-side-item-date">{{ .Date.Format "2006.01.02" }}</time>
+          </a>
+        </li>
+        {{ end }}
+        {{ if lt $postCount 3 }}
+          {{ $need := sub 3 $postCount }}
+          {{ range $i := seq 1 $need }}
+        <li class="yt-side-item yt-side-item-placeholder">
+          <span class="yt-side-item-title">近日公開予定</span>
+          <time class="yt-side-item-date">Coming soon</time>
+        </li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </div>
 
-<!-- ===================================================== -->
-<!-- ===== フローティングボタン群 (購読 + BGM) ===== -->
-<!-- ===================================================== -->
+    <!-- 主題 -->
+    <div class="yt-side-widget">
+      <h3 class="yt-side-title">主題</h3>
+      <ul class="yt-side-tags">
+        <li><a href="#">AI &amp; Claude Code</a></li>
+        <li><a href="#">セキュリティ</a></li>
+        <li><a href="#">自動化</a></li>
+      </ul>
+    </div>
+
+    <!-- 連絡 -->
+    <div class="yt-side-widget">
+      <h3 class="yt-side-title">連絡</h3>
+      <ul class="yt-side-links">
+        <li><a href="{{ "contact/" | relURL }}">お問い合わせ</a></li>
+        <li><a href="{{ "index.xml" | relURL }}">RSS フィード</a></li>
+        <li><a href="{{ "privacy-policy/" | relURL }}">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+
+  </aside>
+</div>
+
+<!-- ===== フローティングボタン群 (BGM + 購読) ===== -->
 <div class="yt-float">
-  <button type="button" id="yt-audio-toggle" class="yt-float-btn yt-float-audio" aria-label="BGMをオン/オフ">
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-off">
+  <button type="button" id="yt-audio-toggle" class="yt-float-btn yt-float-audio is-playing" aria-label="BGMをオン/オフ">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-off" style="display:none;">
       <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
     </svg>
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-on" style="display:none;">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" class="yt-audio-icon-on">
       <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
     </svg>
     <span class="yt-float-label">BGM</span>
   </button>
-  <a href="{{ "index.xml" | relURL }}" class="yt-float-btn yt-float-sub">
+  <a href="{{ "contact/" | relURL }}" class="yt-float-btn yt-float-sub">
     <span class="yt-float-label">購読する</span>
   </a>
 </div>
 
-<!-- ===================================================== -->
-<!-- ===== BGM 音源 (Suno AI 生成・ユーザー著作) ===== -->
-<!-- ===================================================== -->
-<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="none"></audio>
+<!-- ===== BGM (自動再生: ブロック時は初回操作で) ===== -->
+<audio id="yt-bgm" src="{{ "audio/ambient.mp3" | relURL }}" loop preload="auto" autoplay></audio>
 
 <script>
 (function () {
   var audio = document.getElementById('yt-bgm');
   var toggle = document.getElementById('yt-audio-toggle');
   if (!audio || !toggle) return;
-  audio.volume = 0.25;
+
+  audio.volume = 0.22;
   var iconOff = toggle.querySelector('.yt-audio-icon-off');
-  var iconOn = toggle.querySelector('.yt-audio-icon-on');
-  toggle.addEventListener('click', function () {
-    if (audio.paused) {
-      audio.play().then(function () {
-        toggle.classList.add('is-playing');
-        if (iconOff) iconOff.style.display = 'none';
-        if (iconOn) iconOn.style.display = 'inline-block';
-      }).catch(function () {});
+  var iconOn  = toggle.querySelector('.yt-audio-icon-on');
+
+  function setPlayingUI(playing) {
+    if (playing) {
+      toggle.classList.add('is-playing');
+      if (iconOff) iconOff.style.display = 'none';
+      if (iconOn)  iconOn.style.display  = 'inline-block';
     } else {
-      audio.pause();
       toggle.classList.remove('is-playing');
       if (iconOff) iconOff.style.display = 'inline-block';
-      if (iconOn) iconOn.style.display = 'none';
+      if (iconOn)  iconOn.style.display  = 'none';
+    }
+  }
+
+  var tryPlay = audio.play();
+  if (tryPlay && typeof tryPlay.then === 'function') {
+    tryPlay.then(function () {
+      setPlayingUI(true);
+    }).catch(function () {
+      setPlayingUI(false);
+      var resume = function () {
+        audio.play().then(function () { setPlayingUI(true); }).catch(function(){});
+        ['click','touchstart','keydown','scroll'].forEach(function (ev) {
+          document.removeEventListener(ev, resume, { capture: true });
+        });
+      };
+      ['click','touchstart','keydown','scroll'].forEach(function (ev) {
+        document.addEventListener(ev, resume, { capture: true, once: true });
+      });
+    });
+  }
+
+  toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (audio.paused) {
+      audio.play().then(function () { setPlayingUI(true); }).catch(function(){});
+    } else {
+      audio.pause();
+      setPlayingUI(false);
     }
   });
+
+  audio.addEventListener('play',  function () { setPlayingUI(true);  });
+  audio.addEventListener('pause', function () { setPlayingUI(false); });
 })();
 </script>
 
