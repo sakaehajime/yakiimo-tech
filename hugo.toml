@@ -20,8 +20,8 @@ buildExpired = false
 [params]
   env = "production"
   title = "やきいもテック"
-  description = "セキュリティ・AIツールの実践的ノウハウ"
-  author = "やきいも@"
+  description = "セキュリティ・AIツール・自動化に関する実務に使える知見を発信しています。"
+  author = "やきいも"
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowShareButtons = true
@@ -34,9 +34,23 @@ buildExpired = false
   disableSpecial1stPost = false
   comments = false
 
-[params.homeInfoParams]
-  Title = "やきいもテック へようこそ"
-  Content = "セキュリティ・AIツール・自動化のノウハウを発信する個人ラボですわ。"
+# トップページをプロフィールモードに（アイコン＋自己紹介＋ボタン）
+[params.profileMode]
+  enabled = true
+  title = "やきいもテック"
+  subtitle = "セキュリティ・AIツール・自動化に関する実務に使える知見を発信しています。"
+  imageUrl = "/images/profile.jpg"
+  imageTitle = "やきいもテック"
+  imageWidth = 120
+  imageHeight = 120
+
+[[params.profileMode.buttons]]
+  name = "📝 記事一覧"
+  url = "/posts/"
+
+[[params.profileMode.buttons]]
+  name = "✉️ お問い合わせ"
+  url = "/contact/"
 
 [[params.socialIcons]]
   name = "github"

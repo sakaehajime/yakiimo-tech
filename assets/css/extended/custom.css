@@ -1,0 +1,120 @@
+/* ===== やきいもテック カスタムテーマ ===== */
+
+:root {
+  --yakiimo-orange: #e67e22;
+  --yakiimo-orange-dark: #d35400;
+  --yakiimo-orange-light: #f39c12;
+  --yakiimo-cream: #fff9f0;
+}
+
+/* ライトモード：ほんのりクリーム色の背景 */
+.list:not(.dark),
+body:not(.dark) {
+  background: var(--yakiimo-cream);
+}
+
+/* リンクカラーをやきいもオレンジに */
+.post-content a,
+.post-content a:visited {
+  color: var(--yakiimo-orange);
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 0 rgba(230, 126, 34, 0.2);
+  transition: box-shadow 0.2s;
+}
+
+.post-content a:hover {
+  box-shadow: inset 0 -2px 0 0 var(--yakiimo-orange);
+}
+
+/* ヘッダーロゴ（サイト名）をアクセント色に */
+.logo a {
+  color: var(--yakiimo-orange-dark);
+}
+
+.dark .logo a {
+  color: var(--yakiimo-orange-light);
+}
+
+/* タイトルのアンダーラインアクセント */
+.post-title {
+  border-bottom: 3px solid var(--yakiimo-orange);
+  padding-bottom: 0.4em;
+  display: inline-block;
+}
+
+/* プロフィールモードのボタン */
+.buttons a.button {
+  background: var(--yakiimo-orange);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.buttons a.button:hover {
+  background: var(--yakiimo-orange-dark);
+}
+
+/* タグをオレンジ系に */
+.post-tags a {
+  background: rgba(230, 126, 34, 0.1);
+  color: var(--yakiimo-orange-dark);
+  border: 1px solid rgba(230, 126, 34, 0.3);
+}
+
+.post-tags a:hover {
+  background: var(--yakiimo-orange);
+  color: #fff;
+}
+
+.dark .post-tags a {
+  background: rgba(243, 156, 18, 0.15);
+  color: var(--yakiimo-orange-light);
+  border: 1px solid rgba(243, 156, 18, 0.4);
+}
+
+/* 見出しにオレンジのアクセント */
+.post-content h2 {
+  border-left: 4px solid var(--yakiimo-orange);
+  padding-left: 12px;
+}
+
+.post-content h3 {
+  color: var(--yakiimo-orange-dark);
+}
+
+.dark .post-content h3 {
+  color: var(--yakiimo-orange-light);
+}
+
+/* 引用ブロック */
+.post-content blockquote {
+  border-left: 4px solid var(--yakiimo-orange);
+  background: rgba(230, 126, 34, 0.05);
+}
+
+/* コードブロックの言語ラベル */
+.highlight pre code {
+  border-radius: 6px;
+}
+
+/* 記事カード */
+.first-entry .entry-header h1,
+.post-entry .entry-header h2 {
+  transition: color 0.2s;
+}
+
+.post-entry:hover .entry-header h2 {
+  color: var(--yakiimo-orange);
+}
+
+/* ページネーション */
+.paginator .page-item a {
+  color: var(--yakiimo-orange);
+}
+
+/* プロフィールモードの画像シャドウ */
+.profile_inner img {
+  box-shadow: 0 4px 20px rgba(230, 126, 34, 0.25);
+}
