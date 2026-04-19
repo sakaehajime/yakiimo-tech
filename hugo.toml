@@ -1,0 +1,46 @@
+baseURL = "https://yakiimo-tech.com/"
+languageCode = "ja"
+defaultContentLanguage = "ja"
+title = "やきいもテック - セキュリティ＆AIツール研究ラボ"
+theme = "PaperMod"
+
+hasCJKLanguage = true
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[pagination]
+  pagerSize = 10
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[params]
+  env = "production"
+  title = "やきいもテック"
+  description = "セキュリティ・AIツールの実践的ノウハウ"
+  author = "やきいも@"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowToc = true
+  TocOpen = false
+  disableSpecial1stPost = false
+  comments = false
+
+[params.homeInfoParams]
+  Title = "やきいもテック へようこそ"
+  Content = "セキュリティ・AIツール・自動化のノウハウを発信する個人ラボですわ。"
+
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
