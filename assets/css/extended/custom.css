@@ -3,6 +3,49 @@
    メインコンテンツ + サイドバー
    ========================================================= */
 
+/* =========================================================
+   Ajax ナビゲーション (BGM継続のためのソフトSPA)
+   ========================================================= */
+
+/* 上部プログレスバー */
+.yt-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--yt-accent, #e47a6e), var(--yt-accent-dark, #c95d50));
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px rgba(228,122,110,0.5);
+}
+
+/* スワップ時のフェード（短く 90ms） */
+main.main {
+  transition: opacity 0.18s ease;
+  will-change: opacity;
+}
+
+main.main.is-swapping-out {
+  opacity: 0;
+}
+
+main.main.is-swapping-in {
+  opacity: 0;
+}
+
+/* 読み込み中はカーソルを progress に */
+html.is-ajax-loading {
+  cursor: progress;
+}
+
+html.is-ajax-loading a {
+  cursor: progress;
+}
+
+
 :root {
   --yt-bg:          #fdfbf8;
   --yt-bg-paper:    #ffffff;

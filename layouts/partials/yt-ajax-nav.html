@@ -1,0 +1,216 @@
+<!-- ===== Ajax ナビゲーション: BGM 継続のためのソフトSPA化 ===== -->
+<!--
+  内部リンクのクリックを横取りして fetch でHTMLを取得 → <main class="main"> だけを差し替え。
+  body / header / footer / 直下のBGM <audio> 要素は永続するので、音楽が途切れません。
+  - 修飾キー押下、target=_blank、download属性、外部リンク等は通常遷移
+  - data-no-ajax 属性で個別オプトアウト可
+  - 失敗時は通常遷移にフォールバック
+-->
+
+<!-- 上部プログレスバー（読み込み中表示） -->
+<div class="yt-progress" id="yt-progress" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var SWAP_SELECTOR  = 'main.main';     // PaperMod ルートメイン
+  var FALLBACK_FAILURE = true;          // エラー時はwindow.location.hrefにフォールバック
+  var FETCH_TIMEOUT_MS = 8000;
+
+  var origin = window.location.origin;
+  var progress = document.getElementById('yt-progress');
+  var inflight = null;  // AbortController
+
+  // ------- 内部リンク判定 -------
+  function isInternalNavLink(a) {
+    if (!a || a.tagName !== 'A') return false;
+    if (a.target && a.target !== '_self') return false;
+    if (a.hasAttribute('download')) return false;
+    if (a.dataset && a.dataset.noAjax !== undefined) return false;
+    if (a.getAttribute('rel') === 'external') return false;
+
+    var href = a.getAttribute('href');
+    if (!href) return false;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return false;
+
+    var url;
+    try { url = new URL(a.href); } catch (e) { return false; }
+    if (url.origin !== origin) return false;
+
+    // 静的アセット（直接ダウンロード/表示するもの）は除外
+    if (/\.(pdf|zip|tar|gz|7z|mp3|mp4|wav|ogg|opus|m4a|jpg|jpeg|png|gif|svg|webp|avif|xml|json|txt|csv|woff2?|ttf|otf)$/i.test(url.pathname)) return false;
+
+    return true;
+  }
+
+  // ------- プログレスバー -------
+  function showProgress() {
+    if (!progress) return;
+    progress.style.transition = 'none';
+    progress.style.width = '0%';
+    progress.style.opacity = '1';
+    // 強制リフロー
+    void progress.offsetWidth;
+    progress.style.transition = 'width 1.6s cubic-bezier(.2,.8,.2,1), opacity .25s ease';
+    progress.style.width = '85%';
+  }
+  function finishProgress() {
+    if (!progress) return;
+    progress.style.transition = 'width .25s ease, opacity .35s ease';
+    progress.style.width = '100%';
+    setTimeout(function () {
+      progress.style.opacity = '0';
+      setTimeout(function () { progress.style.width = '0%'; }, 350);
+    }, 200);
+  }
+
+  // ------- ナビ実行 -------
+  function navigate(href, push, scrollY) {
+    var swapTarget = document.querySelector(SWAP_SELECTOR);
+    if (!swapTarget) {
+      window.location.href = href;
+      return;
+    }
+
+    // 進行中リクエストをキャンセル
+    if (inflight) try { inflight.abort(); } catch (e) {}
+    inflight = new AbortController();
+
+    showProgress();
+    document.documentElement.classList.add('is-ajax-loading');
+
+    var timeoutId = setTimeout(function () {
+      if (inflight) try { inflight.abort(); } catch (e) {}
+    }, FETCH_TIMEOUT_MS);
+
+    fetch(href, {
+      credentials: 'same-origin',
+      headers: { 'X-Ajax-Nav': '1' },
+      signal: inflight.signal,
+      redirect: 'follow'
+    })
+      .then(function (res) {
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var newSwap = doc.querySelector(SWAP_SELECTOR);
+        if (!newSwap) throw new Error('No swap target in response');
+
+        // <title> 更新
+        var newTitle = doc.querySelector('title');
+        if (newTitle) document.title = newTitle.textContent;
+
+        // <meta description> など主要metaを差し替え
+        ['description', 'author'].forEach(function (name) {
+          var newMeta = doc.querySelector('meta[name="' + name + '"]');
+          var curMeta = document.querySelector('meta[name="' + name + '"]');
+          if (newMeta && curMeta) curMeta.setAttribute('content', newMeta.getAttribute('content') || '');
+          else if (newMeta && !curMeta) document.head.appendChild(newMeta.cloneNode(true));
+        });
+        // canonical
+        var newCanon = doc.querySelector('link[rel="canonical"]');
+        var curCanon = document.querySelector('link[rel="canonical"]');
+        if (newCanon && curCanon) curCanon.setAttribute('href', newCanon.getAttribute('href') || '');
+
+        // body class（home/list/single 切替）
+        if (doc.body && doc.body.className) document.body.className = doc.body.className;
+
+        // ===== コンテンツ入れ替え =====
+        // フェード（短く）
+        swapTarget.classList.add('is-swapping-out');
+        setTimeout(function () {
+          swapTarget.replaceWith(newSwap);
+
+          // 入れ替え後のフェードイン
+          newSwap.classList.add('is-swapping-in');
+          requestAnimationFrame(function () {
+            newSwap.classList.remove('is-swapping-in');
+          });
+
+          // 入れ替えた中の <script> を抽出して実行（チャート/ハイライト系の保険）
+          Array.from(newSwap.querySelectorAll('script')).forEach(function (oldScript) {
+            var s = document.createElement('script');
+            for (var i = 0; i < oldScript.attributes.length; i++) {
+              var attr = oldScript.attributes[i];
+              s.setAttribute(attr.name, attr.value);
+            }
+            s.textContent = oldScript.textContent;
+            oldScript.replaceWith(s);
+          });
+
+          // URL更新
+          if (push) history.pushState({ ajax: true, scrollY: 0 }, '', href);
+
+          // スクロール位置（戻る/進むなら復元、それ以外は最上部）
+          window.scrollTo(0, typeof scrollY === 'number' ? scrollY : 0);
+
+          // 拡張用カスタムイベント
+          document.dispatchEvent(new CustomEvent('yt-ajax-loaded', { detail: { href: href } }));
+
+          document.documentElement.classList.remove('is-ajax-loading');
+          finishProgress();
+        }, 90);
+      })
+      .catch(function (err) {
+        clearTimeout(timeoutId);
+        document.documentElement.classList.remove('is-ajax-loading');
+        finishProgress();
+        if (err && err.name === 'AbortError') return; // 上書きされただけ
+        if (FALLBACK_FAILURE) {
+          window.location.href = href;
+        } else {
+          console.warn('Ajax nav failed:', err);
+        }
+      });
+  }
+
+  // ------- クリック横取り -------
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented) return;
+    if (e.button !== 0) return;
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+
+    var a = e.target.closest && e.target.closest('a');
+    if (!isInternalNavLink(a)) return;
+
+    var newURL, curURL;
+    try {
+      newURL = new URL(a.href);
+      curURL = new URL(window.location.href);
+    } catch (err) { return; }
+
+    // 同一ページ内ハッシュ移動はブラウザ任せ
+    if (newURL.pathname === curURL.pathname && newURL.search === curURL.search) {
+      if (newURL.hash) return;             // #anchor → ブラウザ標準
+      // 全く同じURL → トップへスクロール
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    e.preventDefault();
+    // 現在のスクロール位置を保存（戻る用）
+    try {
+      history.replaceState({
+        ajax: true,
+        scrollY: window.scrollY
+      }, '', window.location.href);
+    } catch (err) {}
+
+    navigate(a.href, true, 0);
+  });
+
+  // ------- 戻る/進む -------
+  window.addEventListener('popstate', function (e) {
+    var s = e.state || {};
+    navigate(window.location.href, false, typeof s.scrollY === 'number' ? s.scrollY : 0);
+  });
+
+  // 初期state
+  try { history.replaceState({ ajax: true, scrollY: 0 }, '', window.location.href); } catch (e) {}
+})();
+</script>
