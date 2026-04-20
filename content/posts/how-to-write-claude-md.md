@@ -1,6 +1,6 @@
 ---
 title: "Claude Code の相棒、CLAUDE.md の書き方"
-date: 2026-04-21T12:00:00+09:00
+date: 2026-04-20T12:00:00+09:00
 draft: false
 tags: ["Claude Code", "CLAUDE.md", "プロジェクト設定"]
 categories: ["AI & Claude Code"]
