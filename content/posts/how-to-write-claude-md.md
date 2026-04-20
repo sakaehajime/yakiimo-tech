@@ -1,7 +1,7 @@
 ---
 title: "Claude Code の相棒、CLAUDE.md の書き方"
 date: 2026-04-21T12:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "CLAUDE.md", "プロジェクト設定"]
 categories: ["AI & Claude Code"]
 description: "Claude Code を使い倒すなら必須の設定ファイル CLAUDE.md。書き方のポイントと、私が実際に入れている5項目を紹介します。"

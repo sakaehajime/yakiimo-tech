@@ -1,7 +1,7 @@
 ---
 title: "Claude Code の隠れ実力派、スラッシュコマンド活用術"
 date: 2026-04-22T12:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "スラッシュコマンド", "効率化"]
 categories: ["AI & Claude Code"]
 description: "Claude Code のセッション中に使える / から始まる特別コマンド。/clear と /compact の使い分けを中心に、毎日使いたい4つを紹介します。"
