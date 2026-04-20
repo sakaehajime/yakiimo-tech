@@ -57,7 +57,7 @@
         {{ $bodyRest := substr $bodyText 1 200 }}
       <article class="yt-article">
         <h2 class="yt-article-title">
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <a href="{{ .RelPermalink }}">{{- with .Params.displayTitle -}}{{ . | safeHTML }}{{- else -}}{{ .Title }}{{- end -}}</a>
         </h2>
         <p class="yt-article-date">{{ .Date.Format "2006年1月2日" }}</p>
         <p class="yt-article-body">
