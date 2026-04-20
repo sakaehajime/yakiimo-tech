@@ -1,5 +1,6 @@
 ---
 title: "Claude Code、まずはここから（はじめての一歩）"
+displayTitle: "Claude Code、まずはここから<br>（はじめての一歩）"
 date: 2026-04-20T08:00:00+09:00
 draft: false
 tags: ["Claude Code", "AIツール", "CLI"]
