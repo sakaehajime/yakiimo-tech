@@ -1,0 +1,26 @@
+{{- /*
+  アフィリエイト開示 (ステマ規制・景表法対応)
+  frontmatter に `affiliate: true` を指定した記事の本文先頭に挿入される。
+  文言カスタマイズは `affiliateNotice: "..."` で可能。
+*/ -}}
+{{- if .Params.affiliate }}
+<aside class="yt-aff-notice" role="note" aria-label="プロモーション表示">
+  <span class="yt-aff-notice__tag">PR</span>
+  <span class="yt-aff-notice__text">{{ .Params.affiliateNotice | default "本記事はアフィリエイト広告（プロモーション）を含みます。" }}</span>
+</aside>
+<style>
+  .yt-aff-notice{
+    display:flex;align-items:center;gap:.6em;
+    margin:0 0 1.5em;padding:.6em .9em;
+    border:1.5px solid currentColor;
+    font-size:.85em;line-height:1.4;
+  }
+  .yt-aff-notice__tag{
+    flex:0 0 auto;
+    font-weight:700;letter-spacing:.05em;
+    padding:.1em .5em;
+    border:1.5px solid currentColor;
+  }
+  .yt-aff-notice__text{flex:1 1 auto;}
+</style>
+{{- end }}

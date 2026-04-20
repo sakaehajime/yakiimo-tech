@@ -40,6 +40,7 @@
 
   {{- if .Content }}
   <div class="post-content md-content">
+    {{- partial "yt-affiliate-notice.html" . }}
     {{- if not (.Param "disableAnchoredHeadings") }}
     {{- partial "anchored_headings.html" .Content -}}
     {{- else }}{{ .Content }}{{ end }}
