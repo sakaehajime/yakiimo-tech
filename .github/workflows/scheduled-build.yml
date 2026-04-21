@@ -1,0 +1,41 @@
+name: Scheduled Hugo Rebuild
+
+# 目的:
+#   Hugo の buildFuture = false により、date が未来の記事はビルドから除外される。
+#   このワークフローが定時に Cloudflare Pages の再ビルドをトリガーすることで、
+#   予約日時が過ぎた記事が自動的に公開される仕組み。
+#
+# 必要な GitHub Secret:
+#   CF_DEPLOY_HOOK - Cloudflare Pages の Deploy Hook URL
+#   （Cloudflare ダッシュボード → ヤキイモテック → 設定 → ビルドとデプロイ → Deploy hooks）
+
+on:
+  schedule:
+    # 毎日 JST 10:00（= UTC 01:00）に実行
+    # cron書式: 分 時 日 月 曜日（★UTC基準★）
+    #
+    # 他の時刻にしたい場合の例:
+    #   - cron: '0 1 * * *'      # JST 10:00 のみ
+    #   - cron: '0 10 * * *'     # JST 19:00 のみ
+    #   - cron: '0 1,10 * * *'   # JST 10:00 と 19:00 の2回
+    #   - cron: '0 0,3,6,9,12,15,18,21 * * *'  # 3時間ごと
+    - cron: '0 1 * * *'
+
+  # Actions タブから「Run workflow」ボタンで手動実行も可能
+  workflow_dispatch:
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Cloudflare Pages Rebuild
+        run: |
+          echo "Triggering Cloudflare Pages rebuild at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          curl -X POST "${{ secrets.CF_DEPLOY_HOOK }}" \
+            -H "Content-Type: application/json" \
+            --fail \
+            --silent \
+            --show-error
+          echo ""
+          echo "Rebuild triggered successfully."
