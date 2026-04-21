@@ -2,7 +2,7 @@
 title: "プロジェクトごとに settings.json を使い分ける技"
 displayTitle: "プロジェクトごとに<br>settings.json を使い分ける技"
 date: 2026-04-22T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "セキュリティ", "settings.json", "CLAUDE.md"]
 categories: ["Webアプリのセキュリティ"]
 description: "Claude Code の settings.json には実は3つの階層があります。グローバル・プロジェクト・ローカルを使い分けて、チーム開発でも安全に Claude Code を運用する方法をまとめました。"
