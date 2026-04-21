@@ -2,7 +2,7 @@
 title: "自分専用スラッシュコマンドを作ってみる"
 displayTitle: "自分専用スラッシュコマンドを<br>作ってみる"
 date: 2026-04-23T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "スラッシュコマンド", "効率化", "カスタマイズ"]
 categories: ["AI & Claude Code"]
 description: "Claude Code のスラッシュコマンドは自作できます。いつも同じ指示を打っている作業を /commit や /review のような1発コマンドに変える方法を紹介します。"
