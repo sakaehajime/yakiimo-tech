@@ -2,7 +2,7 @@
 title: "RTK で Claude Code のトークンを9割削減した話"
 displayTitle: "RTK で Claude Code の<br>トークンを9割削減した話"
 date: 2026-04-25T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "RTK", "自動化", "トークン削減", "効率化"]
 categories: ["自動化"]
 description: "Claude Code のトークン消費を 60〜90% 削減できる Rust 製 CLI ツール RTK（Rust Token Killer）。Windows での導入手順と実測値、CLAUDE.md で Claude に自発的に使わせる設定まで紹介します。"

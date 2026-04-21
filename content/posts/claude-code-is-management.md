@@ -2,7 +2,7 @@
 title: "Claude Code を2週間触って分かった「マネジメントが9割」"
 displayTitle: "Claude Code を2週間触って分かった<br>「マネジメントが9割」"
 date: 2026-04-26T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "マネジメント", "オピニオン", "AI活用"]
 categories: ["AI & Claude Code"]
 description: "Claude Code を集中的に使い込んで見えてきたのは、これがコーディングツールではなく「新人マネジメントのシミュレーター」だということ。5つのマネジメント原則を紹介します。"

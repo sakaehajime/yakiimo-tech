@@ -2,7 +2,7 @@
 title: "NotebookLM × Claude Code でゼロトークン・リサーチ"
 displayTitle: "NotebookLM × Claude Code で<br>ゼロトークン・リサーチ"
 date: 2026-04-24T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Claude Code", "NotebookLM", "自動化", "トークン削減"]
 categories: ["自動化"]
 description: "Claude Code で調べ物をするとトークンを食います。リサーチ部分だけ無料の NotebookLM に外注して、Claude には要約だけ渡す。海外で話題の「ゼロトークン・リサーチ」手法を導入した話。"
