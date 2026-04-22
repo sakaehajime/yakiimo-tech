@@ -63,9 +63,10 @@
         <p class="yt-article-body">
           <span class="yt-dropcap">{{ $bodyFirst }}</span>{{ $bodyRest }}...
         </p>
-        {{ with .Params.categories }}
+        {{ with ($p.GetTerms "categories") }}
+        {{ $cat := index . 0 }}
         <p class="yt-article-tag">
-          <a href="{{ printf "categories/%s/" (index . 0 | urlize) | relURL }}">{{ index . 0 }}</a>
+          <a href="{{ $cat.RelPermalink }}">{{ $cat.LinkTitle }}</a>
         </p>
         {{ end }}
       </article>
