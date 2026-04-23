@@ -1,7 +1,7 @@
 ---
 title: "Claude API で『朝刊サマリー』を自動生成する話"
 displayTitle: "Claude API で<br>『朝刊サマリー』を自動生成する話"
-date: 2026-04-23T14:00:00+09:00
+date: 2026-04-23T09:00:00+09:00
 draft: false
 tags: ["Claude API", "Python", "自動化", "プロンプトキャッシング", "Anthropic SDK"]
 categories: ["自動化"]
