@@ -97,7 +97,7 @@ def summarize(title: str, body: str) -> str:
     return resp.content[0].text
 ```
 
-ポイントは `system` を**リスト形式**にして `cache_control` を付けているところ。これで Anthropic 側がこの部分をキャッシュしてくれて、2件目以降の呼び出しは **入力トークンが9割引** になります。
+ポイントは `system` を**リスト形式**にして `cache_control` を付けているところ。これで Anthropic 側がこの部分をキャッシュしてくれて、2件目以降の呼び出しは **入力トークンが9割引** になります。（※状況により数値の変動はあります。）
 
 ## なぜキャッシング必須か
 
