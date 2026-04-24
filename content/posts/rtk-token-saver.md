@@ -1,7 +1,7 @@
 ---
 title: "RTK で Claude Code のトークンを9割削減した話"
 displayTitle: "RTK で Claude Code の<br>トークンを9割削減した話"
-date: 2026-04-25T10:00:00+09:00
+date: 2026-04-24T12:00:00+09:00
 draft: false
 tags: ["Claude Code", "RTK", "自動化", "トークン削減", "効率化"]
 categories: ["自動化"]
