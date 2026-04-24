@@ -1,7 +1,7 @@
 ---
 title: "NotebookLM × Claude Code でゼロトークン・リサーチ"
 displayTitle: "NotebookLM × Claude Code で<br>ゼロトークン・リサーチ"
-date: 2026-04-24T10:00:00+09:00
+date: 2026-04-24T09:00:00+09:00
 draft: false
 tags: ["Claude Code", "NotebookLM", "自動化", "トークン削減"]
 categories: ["自動化"]
