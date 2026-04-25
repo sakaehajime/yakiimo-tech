@@ -1,7 +1,7 @@
 ---
 title: "block_env.py で Claude Code に .env を絶対触らせない hook 実装"
 displayTitle: "block_env.py で Claude Code に<br>.env を絶対触らせない hook 実装"
-date: 2026-04-26T08:00:00+09:00
+date: 2026-04-26T06:00:00+09:00
 draft: false
 tags: ["Claude Code", "セキュリティ", "PreToolUse", "hook", ".env"]
 categories: ["Webアプリのセキュリティ"]
