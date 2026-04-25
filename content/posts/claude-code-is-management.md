@@ -1,7 +1,7 @@
 ---
 title: "Claude Code を2週間触って分かった「マネジメントが9割」"
 displayTitle: "Claude Code を2週間触って分かった<br>「マネジメントが9割」"
-date: 2026-04-26T10:00:00+09:00
+date: 2026-04-25T20:00:00+09:00
 draft: false
 tags: ["Claude Code", "マネジメント", "オピニオン", "AI活用"]
 categories: ["AI & Claude Code"]
