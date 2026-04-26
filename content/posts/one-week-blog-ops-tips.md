@@ -1,7 +1,7 @@
 ---
 title: "Hugo + Cloudflare Pages でブログを始めて1週間。13本書いて見えてきた運用Tips"
 displayTitle: "Hugo + Cloudflare Pages で<br>ブログを始めて1週間。13本書いて見えてきた運用Tips"
-date: 2026-04-26T05:00:00+09:00
+date: 2026-04-27T05:00:00+09:00
 draft: false
 tags: ["Hugo", "Cloudflare Pages", "ブログ運用", "PaperMod", "自動化"]
 categories: ["自動化"]
