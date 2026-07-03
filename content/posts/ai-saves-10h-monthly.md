@@ -1,8 +1,8 @@
 ---
 title: "「AI副業で月1万円」より「AIで月10時間救う」方が早かった話"
 displayTitle: "「AI副業で月1万円」より「AIで月10時間救う」方が早かった話"
-date: 2026-05-28T20:00:00+09:00
-draft: true
+date: 2026-08-09T09:00:00+09:00
+draft: false
 tags: ["AI活用", "Claude", "NotebookLM", "時短", "副業"]
 categories: ["AI活用"]
 description: "Claude / NotebookLM / Codex まわりに月数千円〜1.5万円課金している1ユーザーが、副業で稼ぐ方ではなく『時間を救う』方を半年やった実体験レポート。7つの場面で月10時間が浮いた具体的な数字と、各場面で使ったツールを公開します。"

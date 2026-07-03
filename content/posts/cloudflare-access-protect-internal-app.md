@@ -1,8 +1,8 @@
 ---
 title: "Cloudflare Access で社内アプリを5分で保護する手順"
 displayTitle: "Cloudflare Access で社内アプリを<br>5分で保護する手順"
-date: 2026-05-14T12:30:00+09:00
-draft: true
+date: 2026-07-05T09:00:00+09:00
+draft: false
 tags: ["Cloudflare", "認証", "Cloudflare Access", "Webアプリのセキュリティ"]
 categories: ["インフラ"]
 description: "自作の社内アプリに独自のパスワード認証を実装するのはやめたほうがいい。Cloudflare Access を使えば、メールアドレスベースの認証を設定ファイルなし・コードなしで追加できる。Zero Trust ダッシュボードの操作手順とハマりどころをまとめました。"
@@ -10,7 +10,7 @@ description: "自作の社内アプリに独自のパスワード認証を実装
 
 私が作る社内アプリには、最初から Cloudflare Access を前提にしています。パスワード認証を自分で書かない、というルールを設けているからです。
 
-理由はシンプルで、**自前で認証を実装するとセキュリティの穴を自分で管理しなければならない**からです。パスワードのハッシュ化方式、セッション管理、ブルートフォース対策、ログアウト処理——どれか1つ抜けるだけで脆弱になります。Cloudflare Access を使えばそこをまるごと委任できます。
+理由はシンプルで、自前で認証を実装すると「セキュリティの穴を自分で管理しなければならない」からです。パスワードのハッシュ化方式、セッション管理、ブルートフォース対策、ログアウト処理——どれか1つ抜けるだけで脆弱になります。Cloudflare Access を使えばそこをまるごと委任できます。 😌
 
 今回は、Cloudflare Workers + Next.js で作った社内アプリに Access を設定した手順をそのまま紹介します。
 
@@ -18,11 +18,11 @@ description: "自作の社内アプリに独自のパスワード認証を実装
 
 作業の前に確認しておくべきことが2つあります。
 
-**① アプリのドメインが Cloudflare で管理されていること**
+### ① アプリのドメインが Cloudflare で管理されていること
 
 Cloudflare Access はドメインの DNS が Cloudflare 側にある前提で動きます。Cloudflare Pages や Workers にデプロイしているなら、デフォルトでそうなっています。独自ドメインを使う場合は、レジストラの NS を Cloudflare に向けてください。
 
-**② Cloudflare アカウントが無料プランでもOK**
+### ② Cloudflare アカウントが無料プランでもOK
 
 Zero Trust (Access を含む機能群) は、月50ユーザーまで無料です（2026年5月時点）。個人開発や少人数の社内ツールなら課金せずに使えます。
 
@@ -34,28 +34,28 @@ Zero Trust (Access を含む機能群) は、月50ユーザーまで無料です
 
 ### ② Application を作成
 
-Zero Trust ダッシュボード → **Access** → **Applications** → 「Add an application」。
+Zero Trust ダッシュボード → Access → Applications → 「Add an application」。
 
 種類を選ぶ画面が出ます:
-- **Self-hosted**: 自前サーバー・Cloudflare Workers など、自分で管理しているアプリに使う
-- **SaaS**: Salesforce・GitHub など外部SaaSに使う
+- Self-hosted: 自前サーバー・Cloudflare Workers など、自分で管理しているアプリに使う
+- SaaS: Salesforce・GitHub など外部SaaSに使う
 
-社内アプリなら **Self-hosted** を選びます。
+社内アプリなら「Self-hosted」を選びます。
 
 設定項目:
-- **Application name**: アプリ名（後から変更できる）
-- **Session Duration**: セッションの有効期間。`24 hours` で十分
-- **Application domain**: 保護したいドメインまたはパス。`app.example.com` や `workers.dev のドメイン/admin` のように絞れる
+- Application name: アプリ名（後から変更できる）
+- Session Duration: セッションの有効期間。`24 hours` で十分
+- Application domain: 保護したいドメインまたはパス。`app.example.com` や `workers.dev のドメイン/admin` のように絞れる
 
 ### ③ ポリシーの設定
 
-Application を作った後、**Access ポリシー**を設定します。「誰にアクセスを許可するか」のルールです。
+Application を作った後、Access ポリシーを設定します。「誰にアクセスを許可するか」のルールです。
 
 「Add a policy」から以下を設定:
 
-- **Policy name**: `allow-team` など任意の名前
-- **Action**: `Allow`（許可する）
-- **Configure rules**: 「Include」→ `Emails` を選んで、許可するメールアドレスを直接入力
+- Policy name: `allow-team` など任意の名前
+- Action: `Allow`（許可する）
+- Configure rules: 「Include」→ `Emails` を選んで、許可するメールアドレスを直接入力
 
 メールアドレスを直接入れる方法が最もシンプルです。`@example.com` のドメイン全体を許可する「Email domain」も使えます。
 
@@ -69,7 +69,7 @@ Application を作った後、**Access ポリシー**を設定します。「誰
 2. Cloudflare から認証コードが届く（ワンタイムパスワード）
 3. コードを入力するとアプリにアクセスできる
 
-許可していないアドレスは「Access denied」になります。
+許可していないアドレスは「Access denied」になります。 😊
 
 ## ハマりどころ
 
@@ -112,9 +112,9 @@ Cloudflare Access を入れると、アプリ側のコードに認証ロジッ�
 
 アプリのロジックは「このメールアドレスを持つ人が来たら使わせる」という前提で動く。その判定を Cloudflare がやってくれる。セッション管理もトークンの有効期限も全部 Access 側です。
 
-私はこれを「認証を Cloudflare に外注する」と表現しています。自前で実装するとバグの責任も自分持ちですが、外注すれば「Access のセキュリティ品質を信頼する」という判断だけでいい。
+私はこれを「認証を Cloudflare に外注する」と表現しています。自前で実装するとバグの責任も自分持ちですが、外注すれば「Access のセキュリティ品質を信頼する」という判断だけでいい。 😎
 
-ついでに言うと、**独自パスワードのハッシュ値をJSコードに書かない**という原則も自然に守れます。パスワード認証を実装する場合、ブラウザに送られるJSにハッシュが埋め込まれるケースがあります。ハッシュが漏れると解析される可能性があります。Access はそもそもパスワードを使わず、メール認証（OTP）で動くので、そもそも起きない構造です。
+ついでに言うと、「独自パスワードのハッシュ値をJSコードに書かない」という原則も自然に守れます。パスワード認証を実装する場合、ブラウザに送られるJSにハッシュが埋め込まれるケースがあります。ハッシュが漏れると解析される可能性があります。Access はそもそもパスワードを使わず、メール認証（OTP）で動くので、そもそも起きない構造です。
 
 ## まとめ
 
@@ -124,3 +124,5 @@ Cloudflare Access を入れると、アプリ側のコードに認証ロジッ�
 - 認証ロジックをアプリに書かなくていい、というのが一番の価値
 
 独自パスワード認証は実装コストのわりにリスクが高い。個人開発や少人数の社内ツールほど、最初から Cloudflare Access に乗っかるほうが楽です。
+
+![最後まで読んでくださりありがとうございます。よろしかったら、いいね / レビュー / ブックマークをお願いします！](https://yakiimo-tech.com/n/common/article-cta.jpg)

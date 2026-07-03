@@ -1,8 +1,8 @@
 ---
 title: "Claude『Dynamic Workflows』をやさしく解説 ― AIが“分身”を何百体も動かして大仕事をする話"
 displayTitle: "Claude『Dynamic Workflows』をやさしく解説 ― AIが“分身”を何百体も動かして大仕事をする話"
-date: 2026-05-29T21:00:00+09:00
-draft: true
+date: 2026-07-19T09:00:00+09:00
+draft: false
 tags: ["AI活用", "Claude", "Opus", "Claude Code", "初心者"]
 categories: ["AI活用"]
 description: "Claude Opus 4.8 の目玉機能『Dynamic Workflows（ダイナミックワークフロー）』を、専門知識がない人向けにかみ砕いて解説します。AI が自分で計画を立て、たくさんの“分身”に手分けさせて、大きな仕事を一気に片づける ― そのしくみと、私たちが知っておくべき注意点までやさしくまとめました。"

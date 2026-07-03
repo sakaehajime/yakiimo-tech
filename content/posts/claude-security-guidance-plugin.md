@@ -1,8 +1,8 @@
 ---
 title: "Claude Code の新機能『security-guidance』をやさしく解説 ― AIが自分のコードの“セキュリティの穴”をその場でふさぐ"
 displayTitle: "Claude Code の新機能『security-guidance』をやさしく解説 ― AIが自分のコードの“セキュリティの穴”をその場でふさぐ"
-date: 2026-05-29T22:00:00+09:00
-draft: true
+date: 2026-07-26T09:00:00+09:00
+draft: false
 tags: ["AI活用", "Claude", "Claude Code", "セキュリティ", "初心者"]
 categories: ["AI活用"]
 description: "Anthropic が公開した Claude Code の無料セキュリティ機能『security-guidance（セキュリティ・ガイダンス）』を、専門知識がない人向けにかみ砕いて解説します。AI がコードを書いている最中に“セキュリティの穴”をその場で見つけて、直し方まで提案してくれる ― そのしくみと、知っておくべき注意点までやさしくまとめました。"
