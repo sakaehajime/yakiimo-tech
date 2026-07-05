@@ -1,7 +1,7 @@
 ---
 title: "MarkdownをやめてHTMLに？Anthropic社員が提唱する「読まれる報告書」の新常識"
 date: 2026-07-05T11:00:00+09:00
-draft: true
+draft: false
 tags: ["Anthropic", "Claude Code", "HTML", "AI活用"]
 categories: ["AI活用"]
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Anthropicニュースまとめ 2026/7/5 — Fable 5の安全対策公開とClaude Code大型アップデート"
 date: 2026-07-05T10:00:00+09:00
-draft: true
+draft: false
 tags: ["Anthropic", "Claude", "Claude Code", "AIニュース"]
 categories: ["AIニュース"]
 ---
