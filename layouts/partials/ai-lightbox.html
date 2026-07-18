@@ -1,0 +1,32 @@
+<script>
+(function () {
+  function openLightbox(src, alt) {
+    var box = document.createElement('div');
+    box.className = 'ai-lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-label', 'スライド拡大表示');
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = alt || '';
+    box.appendChild(img);
+    function close() {
+      box.remove();
+      document.removeEventListener('keydown', onKey);
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    box.addEventListener('click', close);
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(box);
+  }
+  /* Ajaxナビでページが差し替わっても効くように document へ委譲 */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('.ai-slide a');
+    if (!a) return;
+    /* モバイルはネイティブの画像表示（ピンチ拡大できる）に任せる */
+    if (window.innerWidth < 768) return;
+    e.preventDefault();
+    var img = a.querySelector('img');
+    openLightbox(a.href, img ? img.alt : '');
+  });
+})();
+</script>

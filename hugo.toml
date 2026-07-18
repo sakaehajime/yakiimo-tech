@@ -34,6 +34,11 @@ buildExpired = false
   disableSpecial1stPost = false
   comments = false
 
+# 記事ページ先頭のカバー画像は非表示（一覧カードでは表示）。
+# サキのAIニュースのYouTubeサムネ(黒帯入り)が記事上部に出て見苦しいのを防ぐ
+[params.cover]
+  hiddenInSingle = true
+
 # トップページはカスタムLP (layouts/index.html) を使用。profileMode は無効化。
 [params.profileMode]
   enabled = false

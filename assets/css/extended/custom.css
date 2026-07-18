@@ -1146,3 +1146,85 @@ footer.footer a { color: var(--yt-ink-muted); }
 @media (max-width: 600px) {
   .yt-news-item a { flex-direction: column; gap: 4px; }
 }
+
+/* =========================================================
+   サキのAIニュース: スライド図版 + ライトボックス
+   ========================================================= */
+
+.ai-slide {
+  margin: 30px auto 34px;
+  max-width: 620px;
+  text-align: center;
+}
+
+.ai-slide a {
+  display: block;
+  box-shadow: none !important;
+  cursor: zoom-in;
+}
+
+.ai-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--yt-rule);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 6px 22px rgba(38, 38, 38, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-slide a:hover img {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(38, 38, 38, 0.14);
+}
+
+.dark .ai-slide img {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
+}
+
+.ai-slide-cap {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-style: italic;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: var(--yt-ink-muted);
+  margin-top: 10px;
+}
+
+.ai-slide-cap::after {
+  content: "（クリックで拡大）";
+  font-size: 0.76rem;
+  color: var(--yt-ink-faint);
+  margin-left: 6px;
+}
+
+.dark .ai-slide-cap { color: #a8a296; }
+
+@media (max-width: 767px) {
+  .ai-slide { max-width: 100%; }
+  .ai-slide-cap::after { content: "（タップで拡大）"; }
+}
+
+/* ライトボックス（拡大表示） */
+.ai-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(12, 12, 12, 0.92);
+  cursor: zoom-out;
+}
+
+.ai-lightbox img {
+  max-width: min(96vw, 1600px);
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
