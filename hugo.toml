@@ -66,12 +66,11 @@ buildExpired = false
   url = "/posts/"
   weight = 10
 
-# サキのAIニュース アーカイブ（/ai-times/）のメニュー。記事の公開承認が出たらコメント解除する
-# [[menu.main]]
-#   identifier = "ai-times"
-#   name = "サキのAIニュース"
-#   url = "/ai-times/"
-#   weight = 15
+[[menu.main]]
+  identifier = "ai-times"
+  name = "サキのAIニュース"
+  url = "/ai-times/"
+  weight = 15
 
 [[menu.main]]
   identifier = "privacy"

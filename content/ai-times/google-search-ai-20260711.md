@@ -1,7 +1,7 @@
 ---
 title: "Google検索が25年ぶり大刷新！AI Modeが10億ユーザー突破"
 date: 2026-07-11T21:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Google", "Gemini", "検索", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

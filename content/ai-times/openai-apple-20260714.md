@@ -1,7 +1,7 @@
 ---
 title: "AppleがOpenAIを提訴 — 元社員400人・営業秘密をめぐる大型訴訟"
 date: 2026-07-14T12:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "OpenAI", "Apple", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

@@ -1,7 +1,7 @@
 ---
 title: "ChatGPTとCodexが1つに統合！数時間の仕事をこなす「ChatGPT Work」登場"
 date: 2026-07-11T12:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "OpenAI", "ChatGPT", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

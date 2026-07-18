@@ -1,7 +1,7 @@
 ---
 title: "政府がAI50体で4.66億行を20時間で監査！Claude Code開発秘話も"
 date: 2026-07-09T21:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Code", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

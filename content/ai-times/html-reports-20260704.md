@@ -1,7 +1,7 @@
 ---
 title: "MarkdownをやめてHTMLに？Anthropic社員の神ワザ仕事術"
 date: 2026-07-06T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Code", "仕事術"]
 categories: ["サキのAIニュース"]
 cover:

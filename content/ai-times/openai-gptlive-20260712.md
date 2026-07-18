@@ -1,7 +1,7 @@
 ---
 title: "ChatGPTの声が別物に！聞きながら話す新音声AI「GPT-Live」登場"
 date: 2026-07-12T12:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "OpenAI", "ChatGPT", "音声AI", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

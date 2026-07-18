@@ -1,7 +1,7 @@
 ---
 title: "Snapの本気ARグラス「Specs」登場！33万円でスマホの次を狙う"
 date: 2026-07-13T21:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Snap", "ARグラス", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

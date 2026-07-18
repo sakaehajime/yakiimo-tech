@@ -1,7 +1,7 @@
 ---
 title: "米政府がChatGPTで全50州を監査！最大30兆円の不正・ムダに切り込む"
 date: 2026-07-13T12:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "OpenAI", "ChatGPT", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

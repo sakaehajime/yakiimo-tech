@@ -1,7 +1,7 @@
 ---
 title: "Anthropic最新ニュース 7/15 — 先生向けClaude無料開放・Claude Code大型更新・カナダ研究支援"
 date: 2026-07-16T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Code", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

@@ -9,6 +9,7 @@
 
 {{ $posts := where site.RegularPages "Section" "posts" }}
 {{ $postCount := len $posts }}
+{{ $news := where site.RegularPages "Section" "ai-times" }}
 
 <!-- ===== RSS小アイコン (左上) ===== -->
 <a href="{{ "index.xml" | relURL }}" class="yt-rss" aria-label="RSS">
@@ -44,7 +45,7 @@
     <!-- INTRO -->
     <section class="yt-intro">
       <p class="yt-lede"><span class="yt-dropcap">こ</span>んにちは、やきいもです。このブログは、Webアプリのセキュリティ・AIツール・自動化の実務で使える知見を発信する個人のテックブログです。Claude Code をはじめとした AI ツールを使い倒しながら、手を動かして検証した結果だけを、丁寧に記録しています。</p>
-      <p>机上の空論ではなく、実際に試して「これは便利」と感じたものをそのまま残すことを大切にしています。週に一本ほどのペースで更新する予定です。</p>
+      <p>机上の空論ではなく、実際に試して「これは便利」と感じたものをそのまま残すことを大切にしています。通常の記事は週に一本ほどのペースで更新しつつ、YouTubeで毎日配信しているAIニュース番組「サキのAIニュース」のアーカイブも毎日追加しています。</p>
     </section>
 
     <hr class="yt-divider">
@@ -103,6 +104,27 @@
       </div>
       <figcaption class="yt-caption">{{ $breakCaption }}</figcaption>
     </figure>
+
+    <!-- サキのAIニュース -->
+    {{ if $news }}
+    <section class="yt-news">
+      <h2 class="yt-section-h2">サキのAIニュース</h2>
+      <p class="yt-section-lede">YouTubeチャンネル「AI Times -サキ-」で毎日配信しているAIニュース番組のアーカイブ。動画と記事版をあわせて掲載しています。</p>
+      <ul class="yt-news-list">
+        {{ range first 3 $news }}
+        <li class="yt-news-item">
+          <a href="{{ .RelPermalink }}">
+            <time class="yt-news-date">{{ .Date.Format "2006.01.02" }}</time>
+            <span class="yt-news-title">{{ .Title }}</span>
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+      <p class="yt-news-more"><a href="{{ "ai-times/" | relURL }}">アーカイブをすべて見る →</a></p>
+    </section>
+
+    <hr class="yt-divider">
+    {{ end }}
 
     <!-- TOPICS -->
     <section class="yt-topics">
@@ -187,6 +209,24 @@
         {{ end }}
       </ul>
     </div>
+
+    <!-- サキのAIニュース -->
+    {{ if $news }}
+    <div class="yt-side-widget">
+      <h3 class="yt-side-title">サキのAIニュース</h3>
+      <ul class="yt-side-list">
+        {{ range first 4 $news }}
+        <li class="yt-side-item">
+          <a href="{{ .RelPermalink }}">
+            <span class="yt-side-item-title">{{ .Title }}</span>
+            <time class="yt-side-item-date">{{ .Date.Format "2006.01.02" }}</time>
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+      <p class="yt-side-more"><a href="{{ "ai-times/" | relURL }}">すべて見る →</a></p>
+    </div>
+    {{ end }}
 
     <!-- 主題 -->
     <div class="yt-side-widget">

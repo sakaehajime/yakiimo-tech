@@ -1,7 +1,7 @@
 ---
 title: "Opus/Sonnet/Haikuどれを使う？Claudeの3モデル使い分けを90秒で"
 date: 2026-07-13T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

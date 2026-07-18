@@ -1074,3 +1074,75 @@ footer.footer a { color: var(--yt-ink-muted); }
   .yt-float-btn { padding: 8px 12px; font-size: 1rem; }
   .yt-float-audio { font-size: 0.76rem; }
 }
+
+/* =========================================================
+   サキのAIニュース（ホームのアーカイブセクション）
+   ========================================================= */
+
+.yt-news { margin: 0 auto 40px; max-width: 720px; }
+
+.yt-news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+}
+
+.yt-news-item { border-bottom: 1px dashed var(--yt-rule); }
+
+.yt-news-item:first-child { border-top: 1px dashed var(--yt-rule); }
+
+.dark .yt-news-item { border-color: rgba(255,255,255,0.08); }
+
+.yt-news-item a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 16px 4px;
+  text-decoration: none !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+.yt-news-date {
+  flex: 0 0 auto;
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--yt-accent);
+  letter-spacing: 0.04em;
+}
+
+.yt-news-title {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--yt-ink-strong);
+  transition: color 0.2s ease;
+}
+
+.dark .yt-news-title { color: #f0e9dc; }
+
+.yt-news-item a:hover .yt-news-title { color: var(--yt-accent); }
+
+.yt-news-more { text-align: center; margin: 0; }
+
+.yt-side-more { text-align: left; margin: 14px 0 0; }
+
+.yt-news-more a,
+.yt-side-more a {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--yt-accent);
+  text-decoration: none;
+  box-shadow: none !important;
+  border-bottom: 1px dotted var(--yt-accent-soft);
+}
+
+.yt-news-more a:hover,
+.yt-side-more a:hover { color: var(--yt-accent-dark); border-bottom-color: var(--yt-accent); }
+
+@media (max-width: 600px) {
+  .yt-news-item a { flex-direction: column; gap: 4px; }
+}

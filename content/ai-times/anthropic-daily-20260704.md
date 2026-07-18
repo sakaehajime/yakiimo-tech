@@ -1,7 +1,7 @@
 ---
 title: "部下AIが裏で全部やる！Claude Code大型アップデート"
 date: 2026-07-05T21:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Code", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

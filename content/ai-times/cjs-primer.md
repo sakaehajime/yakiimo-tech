@@ -1,7 +1,7 @@
 ---
 title: "AIの脱獄危険度を測る新基準「CJS」を90秒で解説"
 date: 2026-07-07T21:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "AIセキュリティ", "Claude", "Anthropic", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

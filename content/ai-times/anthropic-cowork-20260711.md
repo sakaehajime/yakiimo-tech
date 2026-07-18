@@ -1,7 +1,7 @@
 ---
 title: "スマホでAIに仕事を任せる時代へ！Claude Coworkがモバイル対応"
 date: 2026-07-11T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Cowork", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

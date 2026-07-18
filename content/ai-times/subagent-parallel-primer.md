@@ -1,7 +1,7 @@
 ---
 title: "サブエージェント並列実行で仕事が5倍速に — Claude Codeの使い方を90秒で"
 date: 2026-07-14T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Claude Code", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

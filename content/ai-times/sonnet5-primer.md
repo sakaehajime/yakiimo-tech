@@ -1,7 +1,7 @@
 ---
 title: "Claude Sonnet 5を90秒で理解！100万トークン対応の新主力モデル"
 date: 2026-07-07T09:04:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "Claude", "Anthropic", "Sonnet5", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:

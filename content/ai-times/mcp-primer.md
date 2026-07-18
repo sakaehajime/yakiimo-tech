@@ -1,7 +1,7 @@
 ---
 title: "MCPって何？AIに「外の道具」を持たせるしくみを90秒で解説"
 date: 2026-07-12T07:00:00+09:00
-draft: true
+draft: false
 tags: ["AIニュース", "MCP", "Claude", "Anthropic", "生成AI"]
 categories: ["サキのAIニュース"]
 cover:
