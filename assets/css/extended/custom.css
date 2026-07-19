@@ -900,8 +900,29 @@ body:not(.dark),
 
 .post-content {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.03rem;
-  line-height: 2;
+  font-size: 1.15rem;
+  line-height: 2.05;
+}
+
+/* 記事本文は読みやすいコラム幅（1行約40字）に。スライド図版だけ広く張り出す */
+.post-single .post-header,
+.post-single .toc,
+.post-content > * {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-content > p { margin-bottom: 1.5em; }
+
+/* 日本語の見出し・タイトルは文節単位で折り返す（対応ブラウザのみ有効） */
+.post-title,
+.post-content h2,
+.post-content h3,
+.post-entry .entry-header h2,
+.yt-news-title,
+.ai-slide-cap {
+  word-break: auto-phrase;
 }
 
 .post-content a,
@@ -1152,8 +1173,9 @@ footer.footer a { color: var(--yt-ink-muted); }
    ========================================================= */
 
 .ai-slide {
-  margin: 30px auto 34px;
-  max-width: 620px;
+  margin: 34px auto 38px;
+  width: 100%;
+  max-width: min(920px, 100%);
   text-align: center;
 }
 

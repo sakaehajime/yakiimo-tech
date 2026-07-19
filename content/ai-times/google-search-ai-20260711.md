@@ -9,7 +9,11 @@ cover:
   alt: "Google検索が25年ぶり大刷新！AI Modeが10億ユーザー突破"
 ---
 
-こんにちは、サキです！Google検索の検索ボックスが「25年で最大級」の大刷新を迎えています。毎日使う検索が変わる話なので、知っておいて損はないですよ 😊
+こんにちは、サキです！
+
+Google検索の検索ボックスが「25年で最大級」の大刷新を迎えています。
+
+毎日使う検索が変わる話なので、知っておいて損はないですよ 😊
 
 ## 動画版（90秒）
 
@@ -19,23 +23,33 @@ cover:
 
 ## 検索窓がAI化
 
-今年の開発者イベントGoogle I/Oで発表されたAI前提の新しい検索体験が、この夏、世界展開中です。リンクの一覧ではなく、AIがまとめたページで答えが返ってきます。
+今年の開発者イベントGoogle I/Oで発表されたAI前提の新しい検索体験が、この夏、世界展開中です。
+
+リンクの一覧ではなく、AIがまとめたページで答えが返ってきます。
 
 ![リンク一覧→AIがまとめた答えへ](https://lh3.googleusercontent.com/d/1xX9iMIgd2dGTeRwXqgQ36h6lIH4vGyvQ)
 
-その頭脳になるのが新しい既定モデル「Gemini 3.5 Flash」。速さが売りの軽量モデルなのに、上位モデル級の賢さをうたう新世代です。
+その頭脳になるのが新しい既定モデル「Gemini 3.5 Flash」。
+
+速さが売りの軽量モデルなのに、上位モデル級の賢さをうたう新世代です。
 
 ![新しい既定モデル＝Gemini 3.5 Flash](https://lh3.googleusercontent.com/d/1vSk0T2W5BUkdSJ2PMFNfX2ctEUYjYbSG)
 
 ## AI Modeが月間10億ユーザー突破
 
-AIで検索する「AI Mode」は月間10億ユーザーを突破。もはや一部の人の機能ではなく、検索の標準になりつつあります。
+AIで検索する「AI Mode」は月間10億ユーザーを突破。
+
+もはや一部の人の機能ではなく、検索の標準になりつつあります。
 
 ![AI Modeは月間10億ユーザー突破](https://lh3.googleusercontent.com/d/1HNEamtlmJ4cNPBBfJsCb8yUVlukU1tBB)
 
 ## 一方でGemini 3.5 Proは遅延
 
-気がかりもあります。最上位のGemini 3.5 Proは予定から数週間遅れ、いまだ限定プレビューのままでした（動画公開時点）。ライバルのGPT-5.6やGrok 4.5は公開済みで、フロンティアレースではGoogleの次の動きに注目が集まります。
+気がかりもあります。
+
+最上位のGemini 3.5 Proは予定から数週間遅れ、いまだ限定プレビューのままでした（動画公開時点）。
+
+ライバルのGPT-5.6やGrok 4.5は公開済みで、フロンティアレースではGoogleの次の動きに注目が集まります。
 
 ![Gemini 3.5 Proは遅延・公開日未定](https://lh3.googleusercontent.com/d/1Mp2Y-F40WybrtWbrXeDgepiybwZ4FOSD)
 
@@ -43,7 +57,9 @@ AIで検索する「AI Mode」は月間10億ユーザーを突破。もはや一
 
 ## まとめ：Googleの二つの顔
 
-日常の検索はAI化が加速、最上位モデルは我慢の時。Googleの二つの顔が見えた一週間でした。
+日常の検索はAI化が加速、最上位モデルは我慢の時。
+
+Googleの二つの顔が見えた一週間でした。
 
 ![検索はAI化加速・最上位は足踏み](https://lh3.googleusercontent.com/d/1Zz5-MzfJsHD-eRd6sN7D0_paRamveG1J)
 
